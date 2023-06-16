@@ -34,21 +34,29 @@
   <div class="container-fluid py-3">
    <div cdkDropListGroup>
     <div class="example-container">
-      <h4>Aguardam atendimento</h4>
+      <h4>Aguardando atend.</h4>
   
       <div
         cdkDropList
         [cdkDropListData]="waitingForService"
         class="example-list"
         (cdkDropListDropped)="drop($event)">
-        <div class="example-box" *ngFor="let item of waitingForService" tabindex="1" cdkDrag (click)="open(detailsCustomer)">
-          <span class="box-content">
-            {{ item }}
+        <div class="example-box" *ngFor="let item of waitingForService" tabindex="1" cdkDrag>
+          <span class="box-content" (click)="open(detailsCustomer)">
+            {{ item.name }}
           </span>
+          <div>
+            <ul class="dropdown-menu"  aria-labelledby="dropdownMenuButton">
+              <li><a class="dropdown-item" href="#" (click)="open(detailsCustomer)">Abrir detalhes</a></li>
+              <li><a class="dropdown-item" href="#" (click)="open(removeCustomer)">Remover</a></li>
+            </ul>
+          </div>
+          <svg class="edit-icon" data-bs-toggle="dropdown" id="dropdownMenuButton" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20">
+            <path d="M180-180h44l443-443-44-44-443 443v44Zm614-486L666-794l42-42q17-17 42-17t42 17l44 44q17 17 17 42t-17 42l-42 42Zm-42 42L248-120H120v-128l504-504 128 128Zm-107-21-22-22 44 44-22-22Z"/>
+          </svg>
         </div>
       </div>
     </div>
-  
     <div class="example-container">
       <h4>Em atendimento</h4>
   
@@ -58,13 +66,21 @@
         class="example-list"
         (cdkDropListDropped)="drop($event)">
         <div class="example-box" *ngFor="let item of inAttendence" tabindex="1"  cdkDrag>
-          <span class="box-content">
-            {{ item }}
+          <span class="box-content" (click)="open(detailsCustomer)">
+            {{ item.name }}
           </span>
+          <div>
+            <ul class="dropdown-menu"  aria-labelledby="dropdownMenuButton">
+              <li><a class="dropdown-item" href="#" (click)="open(detailsCustomer)">Abrir detalhes</a></li>
+              <li><a class="dropdown-item" href="#" (click)="open(removeCustomer)">Remover</a></li>
+            </ul>
+          </div>
+          <svg class="edit-icon" data-bs-toggle="dropdown" id="dropdownMenuButton" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20">
+            <path d="M180-180h44l443-443-44-44-443 443v44Zm614-486L666-794l42-42q17-17 42-17t42 17l44 44q17 17 17 42t-17 42l-42 42Zm-42 42L248-120H120v-128l504-504 128 128Zm-107-21-22-22 44 44-22-22Z"/>
+          </svg>
         </div>
       </div>
     </div>
-  
     <div class="example-container">
       <h4>Proposta feita</h4>
   
@@ -74,9 +90,18 @@
         class="example-list"
         (cdkDropListDropped)="drop($event)">
         <div class="example-box" *ngFor="let item of proposalMade"  tabindex="1"  cdkDrag>
-          <span class="box-content">
-            {{ item }}
+          <span class="box-content" (click)="open(detailsCustomer)">
+            {{ item.name }}
           </span>
+          <div>
+            <ul class="dropdown-menu"  aria-labelledby="dropdownMenuButton">
+              <li><a class="dropdown-item" href="#" (click)="open(detailsCustomer)">Abrir detalhes</a></li>
+              <li><a class="dropdown-item" href="#" (click)="open(removeCustomer)">Remover</a></li>
+            </ul>
+          </div>
+          <svg class="edit-icon" data-bs-toggle="dropdown" id="dropdownMenuButton" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20">
+            <path d="M180-180h44l443-443-44-44-443 443v44Zm614-486L666-794l42-42q17-17 42-17t42 17l44 44q17 17 17 42t-17 42l-42 42Zm-42 42L248-120H120v-128l504-504 128 128Zm-107-21-22-22 44 44-22-22Z"/>
+          </svg>
         </div>
       </div>
     </div>
@@ -89,9 +114,18 @@
         class="example-list"
         (cdkDropListDropped)="drop($event)">
         <div class="example-box" *ngFor="let item of notCompleted" tabindex="1"  cdkDrag>
-          <span class="box-content">
-            {{ item }}
+          <span class="box-content" (click)="open(detailsCustomer)">
+            {{ item.name }}
           </span>
+          <div>
+            <ul class="dropdown-menu"  aria-labelledby="dropdownMenuButton">
+              <li><a class="dropdown-item" href="#" (click)="open(detailsCustomer)">Abrir detalhes</a></li>
+              <li><a class="dropdown-item" href="#" (click)="open(removeCustomer)">Remover</a></li>
+            </ul>
+          </div>
+          <svg class="edit-icon" data-bs-toggle="dropdown" id="dropdownMenuButton" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20">
+            <path d="M180-180h44l443-443-44-44-443 443v44Zm614-486L666-794l42-42q17-17 42-17t42 17l44 44q17 17 17 42t-17 42l-42 42Zm-42 42L248-120H120v-128l504-504 128 128Zm-107-21-22-22 44 44-22-22Z"/>
+          </svg>
         </div>
       </div>
     </div>
@@ -104,12 +138,22 @@
         class="example-list"
         (cdkDropListDropped)="drop($event)">
         <div class="example-box" *ngFor="let item of sold" tabindex="1"  cdkDrag>
-          <span class="box-content">
-            {{ item }}
+          <span class="box-content" (click)="open(detailsCustomer)">
+            {{ item.name }}
           </span>
+          <div>
+            <ul class="dropdown-menu"  aria-labelledby="dropdownMenuButton">
+              <li><a class="dropdown-item" href="#" (click)="open(detailsCustomer)">Abrir detalhes</a></li>
+              <li><a class="dropdown-item" href="#" (click)="open(removeCustomer)">Remover</a></li>
+            </ul>
+          </div>
+          <svg class="edit-icon" data-bs-toggle="dropdown" id="dropdownMenuButton" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20">
+            <path d="M180-180h44l443-443-44-44-443 443v44Zm614-486L666-794l42-42q17-17 42-17t42 17l44 44q17 17 17 42t-17 42l-42 42Zm-42 42L248-120H120v-128l504-504 128 128Zm-107-21-22-22 44 44-22-22Z"/>
+          </svg>
         </div>
       </div>
     </div>
+
     <button 
       mat-fab
       class="extended-fab"

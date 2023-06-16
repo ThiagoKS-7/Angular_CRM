@@ -13,11 +13,40 @@ import {
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent {
-  waitingForService = ['Get to work', 'Pick up groceries', 'Go home', 'Fall asleep'];
-  inAttendence = [];
-  proposalMade = [];
-  notCompleted = [];
-  sold = [];
+  waitingForService:any = [
+    {
+    name: "Cliente1", 
+    email: "cliente1@gmail.com", 
+    status: "Aguardando atendimento",
+    phone: "123", 
+    address: {
+      city: "San Francisco",
+      state: "CA",
+      neighborhood: "San Francisco",
+      street: "test street",
+      number: "123",
+      zip: "123",
+    }
+  },
+  {
+    name: "Cliente2", 
+    email: "cliente1@gmail.com", 
+    status: "Aguardando atendimento",
+    phone: "123", 
+    address: {
+      city: "San Francisco",
+      state: "CA",
+      neighborhood: "San Francisco",
+      street: "test street",
+      number: "123",
+      zip: "123",
+    }
+  },
+];
+  inAttendence:any = [];
+  proposalMade:any = [];
+  notCompleted:any = [];
+  sold:any = [];
 
   constructor(private modalService: NgbModal, private crmApiService: CrmApiService) {
   }
