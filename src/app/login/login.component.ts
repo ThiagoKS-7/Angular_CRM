@@ -8,6 +8,7 @@ import {  FormBuilder,  FormGroup } from '@angular/forms';
 })
 export class LoginComponent {
   public loginForm:FormGroup; 
+  loading = false;
   hide = true;
   
   constructor(private crmApiService:CrmApiService, private fb: FormBuilder) {
@@ -21,6 +22,13 @@ export class LoginComponent {
 
 
   async login() {
-    await this.crmApiService.login(this.loginForm.value);
+    try {
+      this.loading = true;
+      await this.crmApiService.login(this.loginForm.value);
+    } catch(error) {
+      console.error(error);
+    } finally { 
+      this.loading = false;
+    }
   }
 }

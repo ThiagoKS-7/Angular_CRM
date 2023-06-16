@@ -15,7 +15,7 @@
           <li class="nav-item" (click)="openNewTab('https://web.skype.com/?openPstnPage=true')" tabindex="1" >
             <a class="nav-link" href="#">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file"><title>Skype</title><path d="M12.069 18.874c-4.023 0-5.82-1.979-5.82-3.464 0-.765.561-1.296 1.333-1.296 1.723 0 1.273 2.477 4.487 2.477 1.641 0 2.55-.895 2.55-1.811 0-.551-.269-1.16-1.354-1.429l-3.576-.895c-2.88-.724-3.403-2.286-3.403-3.751 0-3.047 2.861-4.191 5.549-4.191 2.471 0 5.393 1.373 5.393 3.199 0 .784-.688 1.24-1.453 1.24-1.469 0-1.198-2.037-4.164-2.037-1.469 0-2.292.664-2.292 1.617s1.153 1.258 2.157 1.487l2.637.587c2.891.649 3.624 2.346 3.624 3.944 0 2.476-1.902 4.324-5.722 4.324m11.084-4.882l-.029.135-.044-.24c.015.045.044.074.059.12.12-.675.181-1.363.181-2.052 0-1.529-.301-3.012-.898-4.42-.569-1.348-1.395-2.562-2.427-3.596-1.049-1.033-2.247-1.856-3.595-2.426-1.318-.631-2.801-.93-4.328-.93-.72 0-1.444.07-2.143.204l.119.06-.239-.033.119-.025C8.91.274 7.829 0 6.731 0c-1.789 0-3.47.698-4.736 1.967C.729 3.235.032 4.923.032 6.716c0 1.143.292 2.265.844 3.258l.02-.124.041.239-.06-.115c-.114.645-.172 1.299-.172 1.955 0 1.53.3 3.017.884 4.416.568 1.362 1.378 2.576 2.427 3.609 1.034 1.05 2.247 1.857 3.595 2.442 1.394.6 2.877.898 4.404.898.659 0 1.334-.06 1.977-.179l-.119-.062.24.046-.135.03c1.002.569 2.126.871 3.294.871 1.783 0 3.459-.69 4.733-1.963 1.259-1.259 1.962-2.951 1.962-4.749 0-1.138-.299-2.262-.853-3.266"/></svg>
-              <span class="mx-2">Abrir skype</span>
+              <span class="mx-2">Abrir chat do time</span>
             </a>
           </li>
           <li class="nav-item" tabindex="1" (click)="logout()">
@@ -42,13 +42,13 @@
         class="example-list"
         (cdkDropListDropped)="drop($event)">
         <div class="example-box" *ngFor="let item of waitingForService" tabindex="1" cdkDrag>
-          <span class="box-content" (click)="open(detailsCustomer)">
+          <span class="box-content" (click)="open(detailsCustomer, item)">
             {{ item.name }}
           </span>
           <div>
             <ul class="dropdown-menu"  aria-labelledby="dropdownMenuButton">
-              <li><a class="dropdown-item" href="#" (click)="open(detailsCustomer)">Abrir detalhes</a></li>
-              <li><a class="dropdown-item" href="#" (click)="open(removeCustomer)">Remover</a></li>
+              <li><a class="dropdown-item" href="#" (click)="open(detailsCustomer, item)">Abrir detalhes</a></li>
+              <li><a class="dropdown-item" href="#" (click)="open(removeCustomer, item)">Remover</a></li>
             </ul>
           </div>
           <svg class="edit-icon" data-bs-toggle="dropdown" id="dropdownMenuButton" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20">
@@ -66,13 +66,13 @@
         class="example-list"
         (cdkDropListDropped)="drop($event)">
         <div class="example-box" *ngFor="let item of inAttendence" tabindex="1"  cdkDrag>
-          <span class="box-content" (click)="open(detailsCustomer)">
+          <span class="box-content" (click)="open(detailsCustomer, item)">
             {{ item.name }}
           </span>
           <div>
             <ul class="dropdown-menu"  aria-labelledby="dropdownMenuButton">
-              <li><a class="dropdown-item" href="#" (click)="open(detailsCustomer)">Abrir detalhes</a></li>
-              <li><a class="dropdown-item" href="#" (click)="open(removeCustomer)">Remover</a></li>
+              <li><a class="dropdown-item" href="#" (click)="open(detailsCustomer, item)">Abrir detalhes</a></li>
+              <li><a class="dropdown-item" href="#" (click)="open(removeCustomer, item)">Remover</a></li>
             </ul>
           </div>
           <svg class="edit-icon" data-bs-toggle="dropdown" id="dropdownMenuButton" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20">
@@ -90,13 +90,13 @@
         class="example-list"
         (cdkDropListDropped)="drop($event)">
         <div class="example-box" *ngFor="let item of proposalMade"  tabindex="1"  cdkDrag>
-          <span class="box-content" (click)="open(detailsCustomer)">
+          <span class="box-content" (click)="open(detailsCustomer, item)">
             {{ item.name }}
           </span>
           <div>
             <ul class="dropdown-menu"  aria-labelledby="dropdownMenuButton">
-              <li><a class="dropdown-item" href="#" (click)="open(detailsCustomer)">Abrir detalhes</a></li>
-              <li><a class="dropdown-item" href="#" (click)="open(removeCustomer)">Remover</a></li>
+              <li><a class="dropdown-item" href="#" (click)="open(detailsCustomer, item)">Abrir detalhes</a></li>
+              <li><a class="dropdown-item" href="#" (click)="open(removeCustomer, item)">Remover</a></li>
             </ul>
           </div>
           <svg class="edit-icon" data-bs-toggle="dropdown" id="dropdownMenuButton" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20">
@@ -114,13 +114,13 @@
         class="example-list"
         (cdkDropListDropped)="drop($event)">
         <div class="example-box" *ngFor="let item of notCompleted" tabindex="1"  cdkDrag>
-          <span class="box-content" (click)="open(detailsCustomer)">
+          <span class="box-content" (click)="open(detailsCustomer, item)">
             {{ item.name }}
           </span>
           <div>
             <ul class="dropdown-menu"  aria-labelledby="dropdownMenuButton">
-              <li><a class="dropdown-item" href="#" (click)="open(detailsCustomer)">Abrir detalhes</a></li>
-              <li><a class="dropdown-item" href="#" (click)="open(removeCustomer)">Remover</a></li>
+              <li><a class="dropdown-item" href="#" (click)="open(detailsCustomer, item)">Abrir detalhes</a></li>
+              <li><a class="dropdown-item" href="#" (click)="open(removeCustomer, item)">Remover</a></li>
             </ul>
           </div>
           <svg class="edit-icon" data-bs-toggle="dropdown" id="dropdownMenuButton" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20">
@@ -138,13 +138,13 @@
         class="example-list"
         (cdkDropListDropped)="drop($event)">
         <div class="example-box" *ngFor="let item of sold" tabindex="1"  cdkDrag>
-          <span class="box-content" (click)="open(detailsCustomer)">
+          <span class="box-content" (click)="open(detailsCustomer, item)">
             {{ item.name }}
           </span>
           <div>
             <ul class="dropdown-menu"  aria-labelledby="dropdownMenuButton">
-              <li><a class="dropdown-item" href="#" (click)="open(detailsCustomer)">Abrir detalhes</a></li>
-              <li><a class="dropdown-item" href="#" (click)="open(removeCustomer)">Remover</a></li>
+              <li><a class="dropdown-item" href="#" (click)="open(detailsCustomer, item)">Abrir detalhes</a></li>
+              <li><a class="dropdown-item" href="#" (click)="open(removeCustomer, item)">Remover</a></li>
             </ul>
           </div>
           <svg class="edit-icon" data-bs-toggle="dropdown" id="dropdownMenuButton" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20">
@@ -158,7 +158,7 @@
       mat-fab
       class="extended-fab"
       tabindex="1"
-      (click)="open(createCustomer)"
+      (click)="open(createCustomer, {})"
       aria-label="Button that opens a modal for customer registration">
       <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle"><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
     </button>
@@ -173,18 +173,124 @@
       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
     </div>
     <div class="modal-body">
-      <form>
-        <div class="form-group">
-          <label for="dateOfBirth">Date of birth</label>
-          <div class="input-group">
-            <input id="dateOfBirth" name="dateOfBirth" class="form-control" placeholder="yyyy-mm-dd" ngbDatepicker #dp="ngbDatepicker">
-            <button type="button" class="btn btn-outline-secondary bi bi-calendar" (click)="dp.toggle()"></button>
-          </div>
+      <form class="form-group" [formGroup]="createClientForm">
+        <div class="form-label-group mb-3">
+          <label for="inputEmail">Nome</label>
+          <input 
+              type="text" 
+              id="inputName" 
+              value="{{currentClient?.name}}"
+              class="form-control form-input" 
+              placeholder="Nome de usuário" 
+              formControlName="name" 
+              autofocus="" 
+              required="">
+        </div>
+        <div class="form-label-group mb-3">
+          <label for="inputEmail">E-mail</label>
+          <input 
+              type="email" 
+              id="inputEmail" 
+              value="{{currentClient?.email}}"
+              class="form-control form-input" 
+              placeholder="exemplo@gmail.com" 
+              formControlName="email" 
+              autofocus="" 
+              required="">
+        </div>
+        <div class="form-label-group mb-3">
+          <label for="inputPhone">Telefone</label>
+          <input 
+              type="text" 
+              id="inputPhone" 
+              value="{{currentClient?.phone}}"
+              class="form-control form-input" 
+              placeholder="(51) 91234-5678" 
+              formControlName="phone" 
+              autofocus="" 
+              required="">
+        </div>
+        <hr class="hr" />
+        <p>Endereço:</p>
+        <div class="form-label-group mb-3"> 
+          <label for="inputState">CEP:</label>
+          <input 
+              type="text" 
+              id="inputState" 
+              maxlength="2"
+              value="{{currentClient?.address.zip}}"
+              class="form-control form-input" 
+              placeholder="Ex: 71694-028" 
+              formControlName="zip" 
+              autofocus="" 
+              required=""
+              onmouseleave="getAddressByZip()">
+        </div>
+        <div class="form-label-group mb-3"> 
+          <label for="inputState">Estado</label>
+          <input 
+              type="text" 
+              id="inputState" 
+              maxlength="2"
+              value="{{currentClient?.state}}"
+              class="form-control form-input" 
+              placeholder="Ex: CA" 
+              formControlName="state" 
+              autofocus="" 
+              required="">
+        </div>
+        <div class="form-label-group mb-3">
+          <label for="inputStreet">Rua</label>
+          <input 
+              type="text" 
+              id="inputStreet" 
+              value="{{currentClient?.state}}"
+              class="form-control form-input" 
+              placeholder="Rua 19 Conjunto B" 
+              formControlName="street" 
+              autofocus="" 
+              required="">
+        </div>
+        <div class="form-label-group mb-3">
+          <label for="inputCity">Cidade</label>
+          <input 
+              type="text" 
+              id="inputCity" 
+              value="{{currentClient?.city}}"
+              class="form-control form-input" 
+              placeholder="Brasília" 
+              formControlName="city" 
+              autofocus="" 
+              required="">
+        </div>
+        <div class="form-label-group mb-3">
+          <label for="inputNeighbourhood">Bairro</label>
+          <input 
+              type="text" 
+              id="inputNeighbourhood" 
+              value="{{currentClient?.address.neighborhood}}"
+              class="form-control form-input" 
+              placeholder="Brasília" 
+              formControlName="neighborhood" 
+              autofocus="" 
+              required="">
+        </div>
+        <div class="form-label-group mb-3">
+          <label for="inputNumber">Número</label>
+          <input 
+              type="number" 
+              id="inputNumber" 
+              value="{{currentClient?.address.number}}"
+              class="form-control form-input" 
+              placeholder="432" 
+              formControlName="number" 
+              autofocus="" 
+              required="">
         </div>
       </form>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+      <button type="button" class="btn btn-outline-dark" (click)="createClient()">Criar novo cliente</button>
     </div>
   </ng-template>
   
@@ -192,11 +298,141 @@
   
   <ng-template #editCustomer let-modal>
     <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title">edit modal</h4>
+      <h4 class="modal-title" id="modal-basic-title">Editar infos do cliente: </h4>
       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
     </div>
     <div class="modal-body">
-      <form>
+      <form class="form-group" [formGroup]="editCustomerForm">
+        <div class="d-flex flex-column">
+          <span>ID: {{currentClient?.id}}</span>
+          <div class="form-label-group mb-3">
+            <label for="inputEmail">Nome</label>
+            <input 
+                type="text" 
+                id="inputName" 
+                value="{{currentClient?.name}}"
+                class="form-control form-input" 
+                placeholder="Nome de usuário" 
+                formControlName="name" 
+                autofocus="" 
+                required="">
+          </div>
+          <div class="form-label-group mb-3">
+            <label for="inputEmail">E-mail</label>
+            <input 
+                type="email" 
+                id="inputEmail" 
+                value="{{currentClient?.email}}"
+                class="form-control form-input" 
+                placeholder="exemplo@gmail.com" 
+                formControlName="email" 
+                autofocus="" 
+                required="">
+          </div>
+          <div class="form-label-group mb-3">
+            <label for="inputPhone">Telefone</label>
+            <input 
+                type="text" 
+                id="inputPhone" 
+                value="{{currentClient?.phone}}"
+                class="form-control form-input" 
+                placeholder="(51) 91234-5678" 
+                formControlName="phone" 
+                autofocus="" 
+                required="">
+          </div>
+          <hr class="hr" />
+          <p>Endereço:</p>
+          <div class="form-label-group mb-3"> 
+            <label for="inputState">CEP:</label>
+            <input 
+                type="text" 
+                id="inputState" 
+                maxlength="2"
+                value="{{currentClient?.address.zip}}"
+                class="form-control form-input" 
+                placeholder="Ex: 71694-028" 
+                formControlName="zip" 
+                autofocus="" 
+                required="">
+          </div>
+          <div class="form-label-group mb-3"> 
+            <label for="inputState">Estado</label>
+            <input 
+                type="text" 
+                id="inputState" 
+                maxlength="2"
+                value="{{currentClient?.state}}"
+                class="form-control form-input" 
+                placeholder="Ex: CA" 
+                formControlName="state" 
+                autofocus="" 
+                required="">
+          </div>
+          <div class="form-label-group mb-3"> 
+            <label for="inputState">Estado</label>
+            <input 
+                type="text" 
+                id="inputState" 
+                maxlength="2"
+                value="{{currentClient?.state}}"
+                class="form-control form-input" 
+                placeholder="Ex: CA" 
+                formControlName="state" 
+                autofocus="" 
+                required="">
+          </div>
+          <div class="form-label-group mb-3">
+            <label for="inputStreet">Rua</label>
+            <input 
+                type="text" 
+                id="inputStreet" 
+                value="{{currentClient?.state}}"
+                class="form-control form-input" 
+                placeholder="Rua 19 Conjunto B" 
+                formControlName="street" 
+                autofocus="" 
+                required="">
+          </div>
+          <div class="form-label-group mb-3">
+            <label for="inputCity">Cidade</label>
+            <input 
+                type="text" 
+                id="inputCity" 
+                value="{{currentClient?.city}}"
+                class="form-control form-input" 
+                placeholder="Brasília" 
+                formControlName="city" 
+                autofocus="" 
+                required="">
+          </div>
+          <div class="form-label-group mb-3">
+            <label for="inputNeighborhood">Bairro</label>
+            <input 
+                type="text" 
+                id="inputNeighborhood" 
+                value="{{currentClient?.address.neighborhood}}"
+                class="form-control form-input" 
+                placeholder="Brasília" 
+                formControlName="neighborhood" 
+                autofocus="" 
+                required="">
+          </div>
+          <div class="form-label-group mb-3">
+            <label for="inputNumber">Número</label>
+            <input 
+                type="number" 
+                id="inputNumber" 
+                value="{{currentClient?.address.number}}"
+                class="form-control form-input" 
+                placeholder="432" 
+                formControlName="number" 
+                autofocus="" 
+                required="">
+          </div>
+          <hr class="hr" />
+          <span>Criado em {{ getFormatedDate(currentClient?.createdAt) }}</span>
+        </div>
         <div class="form-group">
           <label for="dateOfBirth">Date of birth</label>
           <div class="input-group">
@@ -207,7 +443,7 @@
       </form>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+      <button type="button" class="btn btn-outline-dark" (click)="editClient()">Salvar</button>
     </div>
   </ng-template>
   
@@ -230,28 +466,59 @@
       </form>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+      <button type="button" class="btn btn-outline-dark" (click)="deleteClient()">Save</button>
     </div>
   </ng-template>
   
   <ng-template #detailsCustomer let-modal>
     <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title">Details</h4>
+      <div class="d-block">
+        <h4 class="modal-title" id="modal-basic-title">{{ currentClient?.name }}</h4>
+        <span>na lista <a>{{currentClient?.status}}</a></span>
+      </div>
       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
     </div>
     <div class="modal-body">
-      <form>
-        <div class="form-group">
-          <label for="dateOfBirth">Date of birth</label>
-          <div class="input-group">
-            <input id="dateOfBirth" name="dateOfBirth" class="form-control" placeholder="yyyy-mm-dd" ngbDatepicker #dp="ngbDatepicker">
-            <button type="button" class="btn btn-outline-secondary bi bi-calendar" (click)="dp.toggle()"></button>
-          </div>
+      <div class="d-flex justify-content-between mb-3">
+        <a 
+          class="btn btn-secondary dropdown-toggle" 
+          href="#" 
+          role="button" 
+          id="dropdownMenuLink" 
+          data-bs-toggle="dropdown"
+          aria-haspopup="true" 
+          aria-expanded="false"
+          (click)="asignAgent()">
+          Atribuir a membro do time
+        </a>
+        <div>
+          <ul class="dropdown-menu"  aria-labelledby="dropdownMenuButton">
+            <li *ngFor="let item of agents">
+              <a class="dropdown-item" href="#" >{{ item?.name}}</a>
+            </li>
+          </ul>
         </div>
-      </form>
+        <button class="btn btn-primary" (click)="asignMyself()">Atribuir a mim</button>
+      </div>
+      <div class="d-flex flex-column">
+        <span>Nome: {{currentClient?.name}}</span>
+        <span>Email: {{currentClient?.email}}</span>
+        <span class="custom-link" (click)="openInGmail(currentClient?.email)">
+          Telefone: 
+          <span  class="custom-link" (click)="openInWhatsapp(currentClient?.phone)">{{currentClient?.phone}}</span>
+        </span>
+        <hr class="hr" />
+        <p>Endereço:</p>
+        <span>Estado: {{currentClient?.address.state}}</span>
+        <span>Rua: {{currentClient?.address.street}}</span>
+        <span>Cidade: {{currentClient?.address.city}}</span>
+        <span>Bairro: {{currentClient?.address.neighborhood}}</span>
+        <span>Número: {{currentClient?.address.number}}</span>
+        <span>CEP: {{currentClient?.address.zip}}</span>
+      </div>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+      <button type="button" class="btn btn-outline-dark" (click)="open(editCustomer, currentClient)">Editar</button>
     </div>
   </ng-template>
   

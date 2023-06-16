@@ -10,6 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 export class RegisterComponent {
   public  registerForm:FormGroup; 
   hide = true;
+  loading = false;
 
   constructor(private crmApiService:CrmApiService, private fb: FormBuilder, private toastr: ToastrService) {
      // Form element defined below
@@ -21,15 +22,24 @@ export class RegisterComponent {
   }
 
   async  register() {
-    if (this.registerForm.get('password')?.value != null && this.registerForm.get('password')?.value == this.registerForm.get('confirmPassword')?.value) {
-      await this.crmApiService.register({
-        name: this.registerForm.get('name')?.value,
-        password: this.registerForm.get('password')?.value
-      });
-    } else {
-      this.toastr.error("Passwords dont match! Try again.",'Error:',{
-        timeOut: 8000,
-      });
+    try {
+      this.loading = true;
+      if (this.registerForm.get('password')?.value != null && this.registerForm.get('password')?.value == this.registerForm.get('confirmPassword')?.value) {
+        await this.crmApiService.register({
+          name: this.registerForm.get('name')?.value,
+          password: this.registerForm.get('password')?.value
+        });
+      } else {
+        this.toastr.error("Passwords dont match! Try again.",'Error:',{
+          timeOut: 8000,
+        });
+      }
+    } catch (err) {
+      console.error(err);
+
+    } finally {
+      this.loading = false;
     }
+   
   }
 }

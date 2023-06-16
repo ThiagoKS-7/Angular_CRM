@@ -33,7 +33,11 @@
     </div>
 
     <footer class="d-flex justify-content-end">
-        <button class="btn btn-lg btn-primary px-lg-3" (click)="register()">Entrar</button>
+        <button class="btn btn-lg btn-primary px-lg-3" (click)="register()">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm mx-3" role="status" aria-hidden="true"></span>
+            <span *ngIf="loading" class="sr-only">Carregando...</span>
+            <span *ngIf="!loading">Cadastrar</span>
+        </button>
     </footer>
     <p class="mt-5 mb-3 text-muted text-center">Angular CRM © 2023</p>
 
