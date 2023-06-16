@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { CrmApiService } from '../crm-api.service';
 import {
   CdkDragDrop,
   moveItemInArray,
@@ -13,12 +14,12 @@ import {
 })
 export class DashboardComponent {
   waitingForService = ['Get to work', 'Pick up groceries', 'Go home', 'Fall asleep'];
-  inAttendence = ['Get up', 'Brush teeth', 'Take a shower', 'Check e-mail', 'Walk dog'];
-  proposalMade = ['Get up', 'Brush teeth', 'Take a shower', 'Check e-mail', 'Walk dog'];
-  notCompleted = ['Get to work', 'Pick up groceries', 'Go home', 'Fall asleep'];
+  inAttendence = [];
+  proposalMade = [];
+  notCompleted = [];
   sold = [];
 
-  constructor(private modalService: NgbModal) {
+  constructor(private modalService: NgbModal, private crmApiService: CrmApiService) {
   }
   
 
@@ -29,7 +30,8 @@ export class DashboardComponent {
   public openNewTab(url:string) {
     window.open(url, "_blank");
   }
-  drop(event: CdkDragDrop<string[]>) {
+  public drop(event: CdkDragDrop<string[] | any>) {
+    
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
@@ -40,5 +42,8 @@ export class DashboardComponent {
         event.currentIndex,
       );
     }
+  }
+  async logout() {
+    await this.crmApiService.logout();
   }
 }

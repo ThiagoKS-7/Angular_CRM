@@ -18,7 +18,7 @@
               <span class="mx-2">Abrir skype</span>
             </a>
           </li>
-          <li class="nav-item" tabindex="1">
+          <li class="nav-item" tabindex="1" (click)="logout()">
             <a class="nav-link" href="/login">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
                 <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"/>
@@ -34,15 +34,17 @@
   <div class="container-fluid py-3">
    <div cdkDropListGroup>
     <div class="example-container">
-      <h4>Aguarda atendimento</h4>
+      <h4>Aguardam atendimento</h4>
   
       <div
         cdkDropList
         [cdkDropListData]="waitingForService"
         class="example-list"
         (cdkDropListDropped)="drop($event)">
-        <div class="example-box" *ngFor="let item of waitingForService" tabindex="1" cdkDrag>
-          {{ item }}
+        <div class="example-box" *ngFor="let item of waitingForService" tabindex="1" cdkDrag (click)="open(detailsCustomer)">
+          <span class="box-content">
+            {{ item }}
+          </span>
         </div>
       </div>
     </div>
@@ -55,7 +57,11 @@
         [cdkDropListData]="inAttendence"
         class="example-list"
         (cdkDropListDropped)="drop($event)">
-        <div class="example-box" *ngFor="let item of inAttendence" tabindex="1"  cdkDrag>{{item}}</div>
+        <div class="example-box" *ngFor="let item of inAttendence" tabindex="1"  cdkDrag>
+          <span class="box-content">
+            {{ item }}
+          </span>
+        </div>
       </div>
     </div>
   
@@ -67,7 +73,11 @@
         [cdkDropListData]="proposalMade"
         class="example-list"
         (cdkDropListDropped)="drop($event)">
-        <div class="example-box" *ngFor="let item of proposalMade"  tabindex="1"  cdkDrag>{{item}}</div>
+        <div class="example-box" *ngFor="let item of proposalMade"  tabindex="1"  cdkDrag>
+          <span class="box-content">
+            {{ item }}
+          </span>
+        </div>
       </div>
     </div>
     <div class="example-container">
@@ -75,10 +85,14 @@
   
       <div
         cdkDropList
-        [cdkDropListData]="proposalMade"
+        [cdkDropListData]="notCompleted"
         class="example-list"
         (cdkDropListDropped)="drop($event)">
-        <div class="example-box" *ngFor="let item of proposalMade" tabindex="1"  cdkDrag>{{item}}</div>
+        <div class="example-box" *ngFor="let item of notCompleted" tabindex="1"  cdkDrag>
+          <span class="box-content">
+            {{ item }}
+          </span>
+        </div>
       </div>
     </div>
     <div class="example-container">
@@ -86,10 +100,14 @@
   
       <div
         cdkDropList
-        [cdkDropListData]="proposalMade"            
+        [cdkDropListData]="sold"            
         class="example-list"
         (cdkDropListDropped)="drop($event)">
-        <div class="example-box" *ngFor="let item of proposalMade" tabindex="1"  cdkDrag>{{item}}</div>
+        <div class="example-box" *ngFor="let item of sold" tabindex="1"  cdkDrag>
+          <span class="box-content">
+            {{ item }}
+          </span>
+        </div>
       </div>
     </div>
     <button 
@@ -172,6 +190,26 @@
     </div>
   </ng-template>
   
+  <ng-template #detailsCustomer let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Details</h4>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+      <form>
+        <div class="form-group">
+          <label for="dateOfBirth">Date of birth</label>
+          <div class="input-group">
+            <input id="dateOfBirth" name="dateOfBirth" class="form-control" placeholder="yyyy-mm-dd" ngbDatepicker #dp="ngbDatepicker">
+            <button type="button" class="btn btn-outline-secondary bi bi-calendar" (click)="dp.toggle()"></button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+    </div>
+  </ng-template>
   
   
   

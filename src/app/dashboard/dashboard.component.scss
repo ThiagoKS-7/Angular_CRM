@@ -30,11 +30,15 @@
     align-items: center;
     justify-content: space-between;
     box-sizing: border-box;
-    cursor: move;
+    cursor: grab;
     background: white;
     font-size: 14px;
+  }
+  .box-content {
+    width: 65%;
     &:hover {
-        background: #e6e6e6;
+      font-weight: bolder;
+      cursor: pointer;
     }
   }
   
