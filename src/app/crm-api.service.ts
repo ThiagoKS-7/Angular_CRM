@@ -199,7 +199,23 @@ export class CrmApiService {
       return error.response.data;
     }
   }
-  async getAddressByZip(zip: string):any {
-
+  async getAddressByZip(zip: string) {
+    try {
+      const token = this.getToken();
+      if (!token) {
+        this.toastr.error("Invalid token!",'Error:',{
+          timeOut: 8000,
+        });
+        return
+      }
+      const response = await axios.get("https://viacep.com.br/ws/"+zip+"/json/");
+      console.log(response);
+      return response
+    } catch(error:any) {
+      this.toastr.error(error.response.data.message,'Error:',{
+        timeOut: 8000,
+      });
+      return error.response.data;
+    }
   }
 }

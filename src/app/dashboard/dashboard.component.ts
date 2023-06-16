@@ -208,7 +208,7 @@ export class DashboardComponent {
   public getFormatedDate(date: string) {
     return moment(date).format('DD/MM/YYYY, hh:mm:ss');
   }
-  async getAddressByZip() {
-    return await this.crmApiService.getAddressByZip();
+  async getAddressByZip(zip:string) {
+    return await this.crmApiService.getAddressByZip(zip);
   }
 }
