@@ -13,11 +13,19 @@ export class CrmApiService {
 
   constructor(private router:Router, private toastr: ToastrService) { }
 
-  getToken() : any {
+  getTokenData() : any {
     try {
       const data = JSON.parse(localStorage.getItem('token') as string);
       const tokenInfo = jwt_decode(data);
       return tokenInfo;
+    } catch(error) {
+      return null;
+    }
+  }
+  getToken() : any {
+    try {
+      const data = JSON.parse(localStorage.getItem('token') as string);
+      return data;
     } catch(error) {
       return null;
     }
@@ -81,7 +89,10 @@ export class CrmApiService {
         });
         return
       }
-      const response = await axios.post("/agent/list-clients", params);
+      const headers = {
+        'Authorization': token
+      };
+      const response = await axios.post("/agent/list-clients", headers, params );
       return response
     } catch(error:any) {
       this.handleException(error);
@@ -97,6 +108,7 @@ export class CrmApiService {
         });
         return
       }
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       const response = await axios.get("/agent/list-clients");
       return response
     } catch(error:any) {
@@ -112,6 +124,7 @@ export class CrmApiService {
         });
         return
       }
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       const response = await axios.get("/agent/list-clients");
       return response
     } catch(error:any) {
@@ -127,6 +140,7 @@ export class CrmApiService {
         });
         return
       }
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       const response = await axios.get("/agent/list-clients-by-agent");
       return response
     } catch(error:any) {
@@ -142,7 +156,8 @@ export class CrmApiService {
         });
         return
       }
-      const response = await axios.put("/agent/edit-client", params);
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      const response = await axios.put("/agent/edit-client",  params);
       return response
     } catch(error:any) {
       this.handleException(error);
@@ -157,6 +172,7 @@ export class CrmApiService {
         });
         return
       }
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       const response = await axios.put("/agent/update_status", params);
       return response
     } catch(error:any) {
@@ -172,6 +188,7 @@ export class CrmApiService {
         });
         return
       }
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       const response = await axios.patch("/agent/assign", params);
       return response
     } catch(error:any) {
@@ -187,6 +204,7 @@ export class CrmApiService {
         });
         return
       }
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       const response = await axios.patch("/agent/delete-client", params);
       return response
     } catch(error:any) {

@@ -444,8 +444,8 @@
       <h4 class="modal-title" id="modal-basic-title">Remover Cliente</h4>
       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
     </div>
-    <div>
-      <span>
+    <div class="mt-2 px-3">
+      <span >
         Tem certeza que deseja o cliente <strong>{{ currentClient?.name }}</strong> da lista?
         Caso sim, por favor confirme escrevendo o nome dele abaixo
       </span>
@@ -467,7 +467,7 @@
       </form>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-dark" (click)="deleteClient(currentClient)">Sim, deletar cliente</button>
+      <button type="button" class="btn btn-outline-dark" (click)="deleteClient(currentClient)" [disabled]="confirmationName != currentClient?.name">Sim, deletar cliente</button>
     </div>
   </ng-template>
   

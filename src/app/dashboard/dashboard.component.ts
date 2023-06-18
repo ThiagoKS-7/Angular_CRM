@@ -104,7 +104,19 @@ export class DashboardComponent {
     await this.crmApiService.asignAgent({id, agentName});
   }
   async listClients() {
-    return await this.crmApiService.listClients();
+   const {data} = await this.crmApiService.listClients();
+   if (!data){
+    return;
+   } else {
+      this.crmData.waitingForService = data.data.waiting || [],
+      this.crmData.inAttendence = data.data.inAttendence || [],
+      this.crmData.proposalMade = data.data.proposalMade || [],
+      this.crmData.notCompleted = data.data.notCompleted || [],
+      this.crmData.sold = data.data.sold || [],
+
+     console.log(data.data, this.crmData)
+   }
+
   }
   async listClientsByAgent() {
     return await this.crmApiService.listClientsByAgent();
