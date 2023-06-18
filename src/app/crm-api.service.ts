@@ -13,15 +13,42 @@ export class CrmApiService {
 
   constructor(private router:Router, private toastr: ToastrService) { }
 
-  getToken():any {
+  getToken() : any {
     try {
       const data = JSON.parse(localStorage.getItem('token') as string);
-      console.log("DATA", data);
       const tokenInfo = jwt_decode(data);
-      console.log("TOKEN INFO", tokenInfo);
+      return tokenInfo;
     } catch(error) {
       return null;
     }
+  }
+  logout() {
+    localStorage.clear();
+  }
+
+  handleException(error:any){
+    console.error(error);
+    if (error?.response) {        
+      this.toastr.error(error.response.data.message,'Error:',{
+        timeOut: 8000,
+      });
+      return error.response.data;
+    } else {
+      this.toastr.error(error,'Error:',{
+        timeOut: 8000,
+      });
+      return error;
+    }
+  }
+
+  async checkToken() {
+    const token = this.getToken();
+    const isExpired = Date.now() >= token.exp * 1000;
+    if (!token || isExpired) {
+      this.logout();
+      return false;
+    }
+    return true;
   }
 
   async register(params:object) {
@@ -32,10 +59,7 @@ export class CrmApiService {
       this.toastr.success("Agent registered successfully!", "Success!");
       this.router.navigate(['/']);
     } catch(error:any) {
-      console.error(error);
-      this.toastr.error(error.response.data.message,'Error:',{
-        timeOut: 8000,
-      });
+      this.handleException(error);
     }
   }
   async login(params:object) {
@@ -44,17 +68,27 @@ export class CrmApiService {
       localStorage.setItem("token", JSON.stringify(response.data.token));
       this.router.navigate(['/']);
     } catch(error:any) {
-      this.toastr.error(error.response.data.message,'Error:',{
-        timeOut: 8000,
-      });
-
+      this.handleException(error);
     }
   }
-  logout() {
-    localStorage.clear();
+
+  async createClient(params:any) : Promise<any> {
+    try {
+      const token = this.getToken();
+      if (!token) {
+        this.toastr.error("Invalid token!",'Error:',{
+          timeOut: 8000,
+        });
+        return
+      }
+      const response = await axios.post("/agent/list-clients", params);
+      return response
+    } catch(error:any) {
+      this.handleException(error);
+    }
   }
 
-  async createClient() {
+  async listClients() : Promise<any> {
     try {
       const token = this.getToken();
       if (!token) {
@@ -66,14 +100,10 @@ export class CrmApiService {
       const response = await axios.get("/agent/list-clients");
       return response
     } catch(error:any) {
-      this.toastr.error(error.response.data.message,'Error:',{
-        timeOut: 8000,
-      });
-      return error.response.data;
+      this.handleException(error);
     }
   }
-
-  async listClients() {
+  async listAgents(): Promise<any> {
     try {
       const token = this.getToken();
       if (!token) {
@@ -85,31 +115,10 @@ export class CrmApiService {
       const response = await axios.get("/agent/list-clients");
       return response
     } catch(error:any) {
-      this.toastr.error(error.response.data.message,'Error:',{
-        timeOut: 8000,
-      });
-      return error.response.data;
+      this.handleException(error);
     }
   }
-  async listAgents() {
-    try {
-      const token = this.getToken();
-      if (!token) {
-        this.toastr.error("Invalid token!",'Error:',{
-          timeOut: 8000,
-        });
-        return
-      }
-      const response = await axios.get("/agent/list-clients");
-      return response
-    } catch(error:any) {
-      this.toastr.error(error.response.data.message,'Error:',{
-        timeOut: 8000,
-      });
-      return error.response.data;
-    }
-  }
-  async listClientsByAgent() {
+  async listClientsByAgent(): Promise<any> {
     try {
       const token = this.getToken();
       if (!token) {
@@ -121,13 +130,10 @@ export class CrmApiService {
       const response = await axios.get("/agent/list-clients-by-agent");
       return response
     } catch(error:any) {
-      this.toastr.error(error.response.data.message,'Error:',{
-        timeOut: 8000,
-      });
-      return error.response.data;
+      this.handleException(error);
     }
   }
-  async editClient(params:object) {
+  async editClient(params:object) : Promise<any>{
     try {
       const token = this.getToken();
       if (!token) {
@@ -139,13 +145,10 @@ export class CrmApiService {
       const response = await axios.put("/agent/edit-client", params);
       return response
     } catch(error:any) {
-      this.toastr.error(error.response.data.message,'Error:',{
-        timeOut: 8000,
-      });
-      return error.response.data;
+      this.handleException(error);
     }
   }
-  async updateStatus(params:object) {
+  async updateStatus(params:object): Promise<any> {
     try {
       const token = this.getToken();
       if (!token) {
@@ -157,13 +160,10 @@ export class CrmApiService {
       const response = await axios.put("/agent/update_status", params);
       return response
     } catch(error:any) {
-      this.toastr.error(error.response.data.message,'Error:',{
-        timeOut: 8000,
-      });
-      return error.response.data;
+      this.handleException(error);
     }
   }
-  async assignAgent(params: object) {
+  async asignAgent(params: object): Promise<any> {
     try {
       const token = this.getToken();
       if (!token) {
@@ -175,13 +175,10 @@ export class CrmApiService {
       const response = await axios.patch("/agent/assign", params);
       return response
     } catch(error:any) {
-      this.toastr.error(error.response.data.message,'Error:',{
-        timeOut: 8000,
-      });
-      return error.response.data;
+      this.handleException(error);
     }
   }
-  async deleteClient(params: object) {
+  async deleteClient(params: object): Promise<any> {
     try {
       const token = this.getToken();
       if (!token) {
@@ -193,29 +190,23 @@ export class CrmApiService {
       const response = await axios.patch("/agent/delete-client", params);
       return response
     } catch(error:any) {
-      this.toastr.error(error.response.data.message,'Error:',{
-        timeOut: 8000,
-      });
-      return error.response.data;
+      this.handleException(error);
     }
   }
-  async getAddressByZip(zip: string) {
+  async getAddressByZip(zip: string): Promise<any> {
     try {
       const token = this.getToken();
+      console.log(zip)
       if (!token) {
         this.toastr.error("Invalid token!",'Error:',{
           timeOut: 8000,
         });
         return
       }
-      const response = await axios.get("https://viacep.com.br/ws/"+zip+"/json/");
-      console.log(response);
+      const response = await axios.get(`https://viacep.com.br/ws/${zip}/json/`);
       return response
     } catch(error:any) {
-      this.toastr.error(error.response.data.message,'Error:',{
-        timeOut: 8000,
-      });
-      return error.response.data;
+      this.handleException(error);
     }
   }
 }

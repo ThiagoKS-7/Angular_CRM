@@ -8,8 +8,8 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent" style="justify-content:inherit">
         <form class="d-flex my-2">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" tabindex="1" >
-          <button class="btn btn-outline-success" type="submit" tabindex="1">Search</button>
+          <input class="form-control me-2" type="search" placeholder="Digite o nome do agente" aria-label="Search" tabindex="1" >
+          <button class="btn btn-outline-success" type="submit" tabindex="1">Pesquisar</button>
         </form>
         <ul class="navbar-nav">
           <li class="nav-item" (click)="openNewTab('https://web.skype.com/?openPstnPage=true')" tabindex="1" >
@@ -129,6 +129,7 @@
         </div>
       </div>
     </div>
+
     <div class="example-container">
       <h4>Vendido</h4>
   
@@ -169,7 +170,7 @@
   
   <ng-template #createCustomer let-modal>
     <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title">create modal</h4>
+      <h4 class="modal-title" id="modal-basic-title">Cadastrar novo cliente</h4>
       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
     </div>
     <div class="modal-body">
@@ -179,7 +180,6 @@
           <input 
               type="text" 
               id="inputName" 
-              value="{{currentClient?.name}}"
               class="form-control form-input" 
               placeholder="Nome de usuário" 
               formControlName="name" 
@@ -191,7 +191,6 @@
           <input 
               type="email" 
               id="inputEmail" 
-              value="{{currentClient?.email}}"
               class="form-control form-input" 
               placeholder="exemplo@gmail.com" 
               formControlName="email" 
@@ -203,7 +202,6 @@
           <input 
               type="text" 
               id="inputPhone" 
-              value="{{currentClient?.phone}}"
               class="form-control form-input" 
               placeholder="(51) 91234-5678" 
               formControlName="phone" 
@@ -213,18 +211,16 @@
         <hr class="hr" />
         <p>Endereço:</p>
         <div class="form-label-group mb-3"> 
-          <label for="inputState">CEP:</label>
+          <label for="inputZip">CEP:</label>
           <input 
               type="text" 
-              id="inputState" 
-              maxlength="2"
-              value="{{currentClient?.address.zip}}"
+              id="inputZip" 
               class="form-control form-input" 
               placeholder="Ex: 71694-028" 
               formControlName="zip" 
               autofocus="" 
               required=""
-              onmouseleave="getAddressByZip(zip)">
+              on-blur="getAddressByZip(createClientForm.get('zip')?.value)">
         </div>
         <div class="form-label-group mb-3"> 
           <label for="inputState">Estado</label>
@@ -232,7 +228,6 @@
               type="text" 
               id="inputState" 
               maxlength="2"
-              value="{{currentClient?.state}}"
               class="form-control form-input" 
               placeholder="Ex: CA" 
               formControlName="state" 
@@ -244,7 +239,6 @@
           <input 
               type="text" 
               id="inputStreet" 
-              value="{{currentClient?.state}}"
               class="form-control form-input" 
               placeholder="Rua 19 Conjunto B" 
               formControlName="street" 
@@ -256,7 +250,6 @@
           <input 
               type="text" 
               id="inputCity" 
-              value="{{currentClient?.city}}"
               class="form-control form-input" 
               placeholder="Brasília" 
               formControlName="city" 
@@ -268,7 +261,6 @@
           <input 
               type="text" 
               id="inputNeighbourhood" 
-              value="{{currentClient?.address.neighborhood}}"
               class="form-control form-input" 
               placeholder="Brasília" 
               formControlName="neighborhood" 
@@ -280,7 +272,6 @@
           <input 
               type="number" 
               id="inputNumber" 
-              value="{{currentClient?.address.number}}"
               class="form-control form-input" 
               placeholder="432" 
               formControlName="number" 
@@ -344,11 +335,10 @@
           <hr class="hr" />
           <p>Endereço:</p>
           <div class="form-label-group mb-3"> 
-            <label for="inputState">CEP:</label>
+            <label for="inputZip">CEP:</label>
             <input 
                 type="text" 
-                id="inputState" 
-                maxlength="2"
+                id="inputZip" 
                 value="{{currentClient?.address.zip}}"
                 class="form-control form-input" 
                 placeholder="Ex: 71694-028" 
@@ -451,7 +441,7 @@
   
   <ng-template #removeCustomer let-modal>
     <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title">delete modal</h4>
+      <h4 class="modal-title" id="modal-basic-title">Remover Cliente</h4>
       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
     </div>
     <div class="modal-body">
