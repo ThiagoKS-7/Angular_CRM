@@ -49,8 +49,6 @@ export class DashboardComponent {
   ngOnInit() {
     this.checkToken();
   }
-
-
   public open(modal: any, client:any): void {
     this.currentClient = client;
     this.modalService.open(modal);
@@ -84,9 +82,7 @@ export class DashboardComponent {
   }
   async checkToken() {
     const tokeIsValid = await this.crmApiService.checkToken();
-    if (!tokeIsValid) {
-      this.router.navigate(['/login']);
-    } else {
+    if (tokeIsValid) {
       await this.listClients();
       await this.listAgents();
     }
@@ -112,10 +108,8 @@ export class DashboardComponent {
       this.crmData.inAttendence = data.data.inAttendence || [],
       this.crmData.proposalMade = data.data.proposalMade || [],
       this.crmData.notCompleted = data.data.notCompleted || [],
-      this.crmData.sold = data.data.sold || [],
-
-     console.log(data.data, this.crmData)
-   }
+      this.crmData.sold = data.data.sold || []
+    }
 
   }
   async listClientsByAgent() {
@@ -135,14 +129,14 @@ export class DashboardComponent {
   }
 
   async getAddressByZip(zip:string) {
-    const response = await this.crmApiService.getAddressByZip(zip);
-    if (response?.cep) {
+    const { data } = await this.crmApiService.getAddressByZip(zip);
+    if (data) {
       this.createClientForm.patchValue({
-        state: response.uf,
-        city: response.localidade,
-        street: response.logradouro,
-        neighborhood: response.bairro,
-        zip: response.cep
+        state: data.uf,
+        city: data.localidade,
+        street: data.logradouro,
+        neighborhood: data.bairro,
+        zip: data.cep
       })
     }
   }

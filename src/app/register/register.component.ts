@@ -29,6 +29,8 @@ export class RegisterComponent {
           name: this.registerForm.get('name')?.value,
           password: this.registerForm.get('password')?.value
         });
+        await this.crmApiService.listClients();
+        await this.crmApiService.listAgents();
       } else {
         this.toastr.error("Passwords dont match! Try again.",'Error:',{
           timeOut: 8000,

@@ -5,7 +5,6 @@ import { ToastrService } from 'ngx-toastr';
 import { environment } from './../environments/environment';
 import jwt_decode from 'jwt-decode';
 axios.defaults.baseURL = environment.apiURL;
-
 @Injectable({
   providedIn: 'root'
 })
@@ -32,6 +31,7 @@ export class CrmApiService {
   }
   logout() {
     localStorage.clear();
+    this.router.navigate(['/login']);
   }
 
   handleException(error:any){
@@ -50,9 +50,19 @@ export class CrmApiService {
   }
 
   async checkToken() {
-    const token = this.getToken();
-    const isExpired = Date.now() >= token.exp * 1000;
-    if (!token || isExpired) {
+    const tokenData = this.getTokenData();
+    if (!tokenData) {
+      this.toastr.error("Token not found! Please log in in your account.",'Error:',{
+        timeOut: 8000,
+      });
+      this.logout();
+      return false;
+    }
+    const isExpired = Date.now() >= tokenData.exp * 1000;
+    if (isExpired) {
+      this.toastr.error("Invalid token provided!",'Error:',{
+        timeOut: 8000,
+      });
       this.logout();
       return false;
     }
@@ -62,7 +72,6 @@ export class CrmApiService {
   async register(params:object) {
     try {
       const response = await axios.post("/agent/register", params);
-      console.log(response)
       localStorage.setItem("token", JSON.stringify(response.data.token));
       this.toastr.success("Agent registered successfully!", "Success!");
       this.router.navigate(['/']);
@@ -82,18 +91,18 @@ export class CrmApiService {
 
   async createClient(params:any) : Promise<any> {
     try {
-      const token = this.getToken();
-      if (!token) {
-        this.toastr.error("Invalid token!",'Error:',{
-          timeOut: 8000,
-        });
-        return
+      const validToken = await this.checkToken();
+      if (validToken) {
+        const token = await this.getToken();
+        const response = await axios.post("/agent/create-client", params, { headers: {
+          'Authorization':  `Bearer ${token}`,
+          'Access-Control-Allow-Origin': '*',
+          'Methods': '*',
+
+        }});
+
+        return response
       }
-      const headers = {
-        'Authorization': token
-      };
-      const response = await axios.post("/agent/list-clients", headers, params );
-      return response
     } catch(error:any) {
       this.handleException(error);
     }
@@ -101,112 +110,120 @@ export class CrmApiService {
 
   async listClients() : Promise<any> {
     try {
-      const token = this.getToken();
-      if (!token) {
-        this.toastr.error("Invalid token!",'Error:',{
-          timeOut: 8000,
-        });
-        return
+      const validToken = await this.checkToken();
+      if (validToken) {
+        const token = await this.getToken();
+        const response = await axios.get("/agent/list-clients", { headers: {
+          'Authorization':  `Bearer ${token}`,
+          'Access-Control-Allow-Origin': '*',
+          'Methods': '*',
+
+        }});
+
+        return response
       }
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      const response = await axios.get("/agent/list-clients");
-      return response
     } catch(error:any) {
       this.handleException(error);
     }
   }
   async listAgents(): Promise<any> {
     try {
-      const token = this.getToken();
-      if (!token) {
-        this.toastr.error("Invalid token!",'Error:',{
-          timeOut: 8000,
-        });
-        return
+      const validToken = await this.checkToken();
+      if (validToken) {
+        const token = await this.getToken();
+        const response = await axios.get("/agent/list-agents", { headers: {
+          'Authorization':  `Bearer ${token}`,
+          'Access-Control-Allow-Origin': '*',
+          'Methods': '*',
+
+        }});
+        return response
       }
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      const response = await axios.get("/agent/list-clients");
-      return response
     } catch(error:any) {
       this.handleException(error);
     }
   }
   async listClientsByAgent(): Promise<any> {
     try {
-      const token = this.getToken();
-      if (!token) {
-        this.toastr.error("Invalid token!",'Error:',{
-          timeOut: 8000,
-        });
-        return
+      const validToken = await this.checkToken();
+      if (validToken) {
+        const token = await this.getToken();
+        const response = await axios.get("/agent/list-clients-by-agent", { headers: {
+          'Authorization':  `Bearer ${token}`,
+          'Access-Control-Allow-Origin': '*',
+          'Methods': '*',
+
+        }});
+        return response
       }
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      const response = await axios.get("/agent/list-clients-by-agent");
-      return response
     } catch(error:any) {
       this.handleException(error);
     }
   }
   async editClient(params:object) : Promise<any>{
     try {
-      const token = this.getToken();
-      if (!token) {
-        this.toastr.error("Invalid token!",'Error:',{
-          timeOut: 8000,
-        });
-        return
+      const validToken = await this.checkToken();
+      if (validToken) {
+        const token = await this.getToken();
+        const response = await axios.put("/agent/edit-client", params, { headers: {
+          'Authorization':  `Bearer ${token}`,
+          'Access-Control-Allow-Origin': '*',
+          'Methods': '*',
+
+        }});
+        return response
       }
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      const response = await axios.put("/agent/edit-client",  params);
-      return response
     } catch(error:any) {
       this.handleException(error);
     }
   }
   async updateStatus(params:object): Promise<any> {
     try {
-      const token = this.getToken();
-      if (!token) {
-        this.toastr.error("Invalid token!",'Error:',{
-          timeOut: 8000,
-        });
-        return
+      const validToken = await this.checkToken();
+      if (validToken) {
+        const token = await this.getToken();
+        const response = await axios.put("/agent/update_status", params, { headers: {
+          'Authorization':  `Bearer ${token}`,
+          'Access-Control-Allow-Origin': '*',
+          'Methods': '*',
+
+        }});
+        return response
       }
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      const response = await axios.put("/agent/update_status", params);
-      return response
     } catch(error:any) {
       this.handleException(error);
     }
   }
   async asignAgent(params: object): Promise<any> {
     try {
-      const token = this.getToken();
-      if (!token) {
-        this.toastr.error("Invalid token!",'Error:',{
-          timeOut: 8000,
-        });
-        return
+      const validToken = await this.checkToken();
+      if (validToken) {
+        const token = await this.getToken();
+        const response = await axios.patch("/agent/assign", params, { headers: {
+          'Authorization':  `Bearer ${token}`,
+          'Access-Control-Allow-Origin': '*',
+          'Methods': '*',
+
+        }});
+        return response
       }
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      const response = await axios.patch("/agent/assign", params);
-      return response
     } catch(error:any) {
       this.handleException(error);
     }
   }
   async deleteClient(params: object): Promise<any> {
     try {
-      const token = this.getToken();
-      if (!token) {
-        this.toastr.error("Invalid token!",'Error:',{
-          timeOut: 8000,
-        });
-        return
+      const validToken = await this.checkToken();
+      if (validToken) {
+        const token = await this.getToken();
+        const response = await axios.patch("/agent/delete-client", params, { headers: {
+          'Authorization':  `Bearer ${token}`,
+          'Access-Control-Allow-Origin': '*',
+          'Methods': '*',
+
+        }});
+        return response
       }
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      const response = await axios.patch("/agent/delete-client", params);
-      return response
     } catch(error:any) {
       this.handleException(error);
     }
@@ -214,7 +231,6 @@ export class CrmApiService {
   async getAddressByZip(zip: string): Promise<any> {
     try {
       const token = this.getToken();
-      console.log(zip)
       if (!token) {
         this.toastr.error("Invalid token!",'Error:',{
           timeOut: 8000,
