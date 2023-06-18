@@ -38,10 +38,10 @@
   
       <div
         cdkDropList
-        [cdkDropListData]="waitingForService"
+        [cdkDropListData]="crmData.waitingForService"
         class="example-list"
         (cdkDropListDropped)="drop($event)">
-        <div class="example-box" *ngFor="let item of waitingForService" tabindex="1" cdkDrag>
+        <div class="example-box" *ngFor="let item of crmData.waitingForService" tabindex="1" cdkDrag>
           <span class="box-content" (click)="open(detailsCustomer, item)">
             {{ item.name }}
           </span>
@@ -62,10 +62,10 @@
   
       <div
         cdkDropList
-        [cdkDropListData]="inAttendence"
+        [cdkDropListData]="crmData.inAttendence"
         class="example-list"
         (cdkDropListDropped)="drop($event)">
-        <div class="example-box" *ngFor="let item of inAttendence" tabindex="1"  cdkDrag>
+        <div class="example-box" *ngFor="let item of crmData.inAttendence" tabindex="1"  cdkDrag>
           <span class="box-content" (click)="open(detailsCustomer, item)">
             {{ item.name }}
           </span>
@@ -86,10 +86,10 @@
   
       <div
         cdkDropList
-        [cdkDropListData]="proposalMade"
+        [cdkDropListData]="crmData.proposalMade"
         class="example-list"
         (cdkDropListDropped)="drop($event)">
-        <div class="example-box" *ngFor="let item of proposalMade"  tabindex="1"  cdkDrag>
+        <div class="example-box" *ngFor="let item of crmData.proposalMade"  tabindex="1"  cdkDrag>
           <span class="box-content" (click)="open(detailsCustomer, item)">
             {{ item.name }}
           </span>
@@ -110,10 +110,10 @@
   
       <div
         cdkDropList
-        [cdkDropListData]="notCompleted"
+        [cdkDropListData]="crmData.notCompleted"
         class="example-list"
         (cdkDropListDropped)="drop($event)">
-        <div class="example-box" *ngFor="let item of notCompleted" tabindex="1"  cdkDrag>
+        <div class="example-box" *ngFor="let item of crmData.notCompleted" tabindex="1"  cdkDrag>
           <span class="box-content" (click)="open(detailsCustomer, item)">
             {{ item.name }}
           </span>
@@ -135,10 +135,10 @@
   
       <div
         cdkDropList
-        [cdkDropListData]="sold"            
+        [cdkDropListData]="crmData.sold"            
         class="example-list"
         (cdkDropListDropped)="drop($event)">
-        <div class="example-box" *ngFor="let item of sold" tabindex="1"  cdkDrag>
+        <div class="example-box" *ngFor="let item of crmData.sold" tabindex="1"  cdkDrag>
           <span class="box-content" (click)="open(detailsCustomer, item)">
             {{ item.name }}
           </span>
@@ -281,7 +281,7 @@
       </form>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-dark" (click)="createClient()">Criar novo cliente</button>
+      <button type="button" class="btn btn-outline-dark" (click)="createClient(createClientForm)">Criar novo cliente</button>
     </div>
   </ng-template>
   
@@ -433,7 +433,7 @@
       </form>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-dark" (click)="editClient()">Salvar</button>
+      <button type="button" class="btn btn-outline-dark" (click)="editClient(editClientForm)">Salvar</button>
     </div>
   </ng-template>
   
@@ -444,19 +444,30 @@
       <h4 class="modal-title" id="modal-basic-title">Remover Cliente</h4>
       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
     </div>
+    <div>
+      <span>
+        Tem certeza que deseja o cliente <strong>{{ currentClient?.name }}</strong> da lista?
+        Caso sim, por favor confirme escrevendo o nome dele abaixo
+      </span>
+    </div>
     <div class="modal-body">
       <form>
-        <div class="form-group">
-          <label for="dateOfBirth">Date of birth</label>
-          <div class="input-group">
-            <input id="dateOfBirth" name="dateOfBirth" class="form-control" placeholder="yyyy-mm-dd" ngbDatepicker #dp="ngbDatepicker">
-            <button type="button" class="btn btn-outline-secondary bi bi-calendar" (click)="dp.toggle()"></button>
-          </div>
+        <div class="form-label-group mb-3">
+          <label for="inputEmail">Nome</label>
+          <input 
+              type="text" 
+              id="inputName" 
+              value="{{confirmationName}}"
+              class="form-control form-input" 
+              placeholder="Nome de usuário" 
+              formControlName="name" 
+              autofocus="" 
+              required="">
         </div>
       </form>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-dark" (click)="deleteClient()">Save</button>
+      <button type="button" class="btn btn-outline-dark" (click)="deleteClient(currentClient)">Sim, deletar cliente</button>
     </div>
   </ng-template>
   
@@ -476,9 +487,10 @@
           role="button" 
           id="dropdownMenuLink" 
           data-bs-toggle="dropdown"
+          [ngModel]="dropdownValue"
           aria-haspopup="true" 
           aria-expanded="false"
-          (click)="asignAgent()">
+          (click)="asignAgent(currentClient?.id, dropdownValue)">
           Atribuir a membro do time
         </a>
         <div>
@@ -488,7 +500,7 @@
             </li>
           </ul>
         </div>
-        <button class="btn btn-primary" (click)="asignMyself()">Atribuir a mim</button>
+        <button class="btn btn-primary" (click)="asignMyself(currentClient?.id)">Atribuir a mim</button>
       </div>
       <div class="d-flex flex-column">
         <span>Nome: {{currentClient?.name}}</span>

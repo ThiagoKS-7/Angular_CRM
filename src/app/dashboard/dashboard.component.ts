@@ -20,13 +20,15 @@ export class DashboardComponent {
   public  editClientForm:FormGroup; 
   public currentClient: any = {};
   public agents: any = [];
-  public crmData: object = {
+  public crmData: any = {
     waitingForService: [],
     inAttendence: [],
     proposalMade: [],
     notCompleted: [],
     sold: [],
   };
+  public dropdownValue: string = '';
+  public confirmationName: string = '';
   public formTemplate: object = { 
     name: '',
     email: '',
@@ -98,8 +100,8 @@ export class DashboardComponent {
   async asignMyself(params:any) {
     await this.crmApiService.asignAgent(params);
   }
-  async asignAgent(params:any) {
-    await this.crmApiService.asignAgent(params);
+  async asignAgent(id:string, agentName:any) {
+    await this.crmApiService.asignAgent({id, agentName});
   }
   async listClients() {
     return await this.crmApiService.listClients();
