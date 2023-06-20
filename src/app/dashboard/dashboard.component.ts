@@ -27,7 +27,6 @@ export class DashboardComponent {
     notCompleted: [],
     sold: [],
   };
-  public dropdownValue: string = '';
   public confirmationName: string = '';
   public formTemplate: object = { 
     name: '',
@@ -64,8 +63,17 @@ export class DashboardComponent {
     window.open("mailto:" + email, "_blank");
   }
 
-  public drop(event: CdkDragDrop<string[] | any>) {
-    
+  public getFormatedDate(date: string) {
+    return moment(date).format('DD/MM/YYYY, hh:mm:ss');
+  }
+  async drop(event: CdkDragDrop<string[] | any>) {
+    const idTranslate:any = {
+      "cdk-drop-list-0": "Aguardando atendimento",
+      "cdk-drop-list-1": "Em atendimento",
+      "cdk-drop-list-2": "Proposta feita",
+      "cdk-drop-list-3": "Não concluído",
+      "cdk-drop-list-4": "Vendido"
+    }
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
@@ -74,11 +82,11 @@ export class DashboardComponent {
         event.container.data,
         event.previousIndex,
         event.currentIndex,
-      );
+        );
+      const id = event.container.data[0].id;
+      await this.updateStatus({id, status:idTranslate[event.container.id]});
+
     }
-  }
-  public getFormatedDate(date: string) {
-    return moment(date).format('DD/MM/YYYY, hh:mm:ss');
   }
   async checkToken() {
     const tokeIsValid = await this.crmApiService.checkToken();
@@ -93,11 +101,12 @@ export class DashboardComponent {
   async createClient(params:any) {
     await this.crmApiService.createClient(params);
   }
-  async asignMyself(params:any) {
-    await this.crmApiService.asignAgent(params);
+  async asignMyself(id:string) {
+    const tokenData:any = await this.crmApiService.getTokenData();
+    await this.crmApiService.asignAgent({id, name:tokenData.name});
   }
   async asignAgent(id:string, agentName:any) {
-    await this.crmApiService.asignAgent({id, agentName});
+    await this.crmApiService.asignAgent({id, name:agentName});
   }
   async listClients() {
    const {data} = await this.crmApiService.listClients();
@@ -116,7 +125,9 @@ export class DashboardComponent {
     return await this.crmApiService.listClientsByAgent();
   }
   async listAgents() {
-    return await this.crmApiService.listAgents();
+    const { data } = await this.crmApiService.listAgents();
+    console.log(data);
+    this.agents = data.data;
   }
   async editClient(params:any) {
     await this.crmApiService.editClient(params);

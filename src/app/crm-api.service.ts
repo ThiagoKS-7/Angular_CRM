@@ -131,7 +131,7 @@ export class CrmApiService {
       const validToken = await this.checkToken();
       if (validToken) {
         const token = await this.getToken();
-        const response = await axios.get("/agent/list-agents", { headers: {
+        const response = await axios.get("/agent/list", { headers: {
           'Authorization':  `Bearer ${token}`,
           'Access-Control-Allow-Origin': '*',
           'Methods': '*',
@@ -182,7 +182,7 @@ export class CrmApiService {
       const validToken = await this.checkToken();
       if (validToken) {
         const token = await this.getToken();
-        const response = await axios.put("/agent/update_status", params, { headers: {
+        const response = await axios.patch("/agent/update-status", params, { headers: {
           'Authorization':  `Bearer ${token}`,
           'Access-Control-Allow-Origin': '*',
           'Methods': '*',

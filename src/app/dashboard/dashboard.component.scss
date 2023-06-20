@@ -11,6 +11,7 @@
         width: 80%;
         min-height: max-content;
         max-height: 300px;
+        margin-left: 10%;
     }
   }
   
@@ -87,6 +88,8 @@
     position: absolute;
     margin: 0px;
     transform: translate(-102px, 12px);
+    max-height: 13em;
+    overflow-y: scroll;
   }
 
   .dropdown-details {
