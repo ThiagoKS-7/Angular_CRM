@@ -84,7 +84,7 @@ export class DashboardComponent {
         event.currentIndex,
         );
       const id = event.container.data[0].id;
-      await this.updateStatus({id, status:idTranslate[event.container.id]});
+      await this.updateStatus(id,  idTranslate[event.container.id] as string);
 
     }
   }
@@ -132,7 +132,12 @@ export class DashboardComponent {
   async editClient(params:any) {
     await this.crmApiService.editClient(params);
   }
-  async updateStatus(params:any) {
+  async updateStatus(id: string, status: string) {
+    const params = {
+      id,
+      status,
+    }
+    console.log(params);
     await this.crmApiService.updateStatus(params);
   }
   async deleteClient(params:any) {
