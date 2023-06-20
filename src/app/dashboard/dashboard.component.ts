@@ -39,6 +39,8 @@ export class DashboardComponent {
     number: '',
     zip: ''
   };
+  public loading = false;
+  public modalLoading=false;
 
   constructor(private modalService: NgbModal, private fb: FormBuilder, private router: Router, private crmApiService: CrmApiService) {
     this.editClientForm = this.fb.group(this.formTemplate);
@@ -57,7 +59,8 @@ export class DashboardComponent {
     window.open(url, "_blank");
   }
   public openInWhatsapp(url:string) {
-    window.open("https://wa.me/" + url, "_blank");
+    const number = url.replace(/[^\d]/g, ''); 
+    window.open("https://wa.me/" + number, "_blank");
   }
   public openInGmail(email:string) {
     window.open("mailto:" + email, "_blank");
@@ -68,12 +71,13 @@ export class DashboardComponent {
   }
   async drop(event: CdkDragDrop<string[] | any>) {
     const idTranslate:any = {
-      "cdk-drop-list-0": "Aguardando atendimento",
-      "cdk-drop-list-1": "Em atendimento",
-      "cdk-drop-list-2": "Proposta feita",
-      "cdk-drop-list-3": "Não concluído",
-      "cdk-drop-list-4": "Vendido"
+      "drop-1": "Aguardando atendimento",
+      "drop-2": "Em atendimento",
+      "drop-3": "Proposta feita",
+      "drop-4": "Não concluído",
+      "drop-5": "Vendido"
     }
+    console.log(event)
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
@@ -83,9 +87,8 @@ export class DashboardComponent {
         event.previousIndex,
         event.currentIndex,
         );
-      const id = event.container.data[0].id;
-      await this.updateStatus(id,  idTranslate[event.container.id] as string);
-
+      const id = event.container.data[event.currentIndex].id;
+      await this.updateStatus(id,  idTranslate[event.container.id]);
     }
   }
   async checkToken() {
@@ -98,26 +101,70 @@ export class DashboardComponent {
   async logout() {
     await this.crmApiService.logout();
   }
-  async createClient(params:any) {
-    await this.crmApiService.createClient(params);
+  async createClient() {
+    try {
+      this.modalLoading = true;
+      let params:any = {
+        address: {}
+      }
+      const addressKeys = ["zip", "city", "state", "street", "neighborhood", "number"]
+      for (let key in this.createClientForm.controls) {
+        if (addressKeys.includes(key)) {
+          params.address[key] = this.createClientForm.controls[key]?.value.toString();
+        } else {
+          params[key] = this.createClientForm.controls[key]?.value;
+        }
+      }
+      await this.crmApiService.createClient(params);
+      await this.listClients();
+    } catch (error) {
+      console.error(error);
+    } finally {
+      this.modalLoading =false;
+    }
   }
   async asignMyself(id:string) {
-    const tokenData:any = await this.crmApiService.getTokenData();
-    await this.crmApiService.asignAgent({id, name:tokenData.name});
+    try {
+      this.modalLoading = true;
+      const tokenData:any = await this.crmApiService.getTokenData();
+      await this.crmApiService.asignAgent({id, name:tokenData.name});
+      await this.listClients();
+    } catch(error) {
+      console.error("assignSelfError",error);
+    } finally { 
+      this.modalLoading = false;
+      this.modalService.dismissAll('Cross click');
+    }
   }
   async asignAgent(id:string, agentName:any) {
-    await this.crmApiService.asignAgent({id, name:agentName});
+    try {
+      this.modalLoading = true;
+      await this.crmApiService.asignAgent({id, name:agentName});
+      await this.listClients();
+    } catch (error) {
+      console.error("assignError", error);
+    } finally {
+      this.modalLoading = false;
+      this.modalService.dismissAll('Cross click');
+    }
   }
   async listClients() {
-   const {data} = await this.crmApiService.listClients();
-   if (!data){
-    return;
-   } else {
-      this.crmData.waitingForService = data.data.waiting || [],
-      this.crmData.inAttendence = data.data.inAttendence || [],
-      this.crmData.proposalMade = data.data.proposalMade || [],
-      this.crmData.notCompleted = data.data.notCompleted || [],
-      this.crmData.sold = data.data.sold || []
+    try {    
+      this.loading = true;
+      const {data} = await this.crmApiService.listClients();
+      if (!data){
+       return;
+      } else {
+         this.crmData.waitingForService = data.data.waiting || [],
+         this.crmData.inAttendence = data.data.inAttendence || [],
+         this.crmData.proposalMade = data.data.proposalMade || [],
+         this.crmData.notCompleted = data.data.notCompleted || [],
+         this.crmData.sold = data.data.sold || []
+       }
+    } catch(err) {
+      console.error("listClientsError", err);
+    } finally {
+      this.loading = false;
     }
 
   }
@@ -126,22 +173,37 @@ export class DashboardComponent {
   }
   async listAgents() {
     const { data } = await this.crmApiService.listAgents();
-    console.log(data);
     this.agents = data.data;
   }
   async editClient(params:any) {
     await this.crmApiService.editClient(params);
   }
   async updateStatus(id: string, status: string) {
-    const params = {
-      id,
-      status,
+    try {
+      this.loading = true;
+      const params = {
+        id,
+        status,
+      }
+      await this.crmApiService.updateStatus(params);
+      await this.listClients();
+    } catch(err) {
+      console.log(err);
+    } finally {
+      this.loading = false;
     }
-    console.log(params);
-    await this.crmApiService.updateStatus(params);
   }
-  async deleteClient(params:any) {
-    await this.crmApiService.deleteClient(params);
+  async deleteClient() {
+    try {
+      this.modalLoading = true;
+      await this.crmApiService.deleteClient({ id: this.currentClient.id});
+      await this.listClients();
+    } catch (err) {
+      console.error(err);
+    } finally {
+      this.modalLoading = false;
+      this.modalService.dismissAll('Cross click');
+    }
   }
 
   async getAddressByZip(zip:string) {
@@ -155,5 +217,8 @@ export class DashboardComponent {
         zip: data.cep
       })
     }
+  }
+  onChange(event: any) {
+    console.log(event);
   }
 }

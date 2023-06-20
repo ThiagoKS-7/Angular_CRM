@@ -35,12 +35,20 @@
     </div>
   </nav>
   <div class="container-fluid d-flex justify-content-center py-3">
+    <div *ngIf="loading"  class="loader-container">
+      <div class="d-flex flex-column align-items-center justify-content-center h-100" style="padding: 0.5em">
+        <i class="spinner-grow  text-info d-flex" role="status">
+        </i>
+        <span class="sr-only text-info">Loading...</span>
+      </div>
+    </div>
    <div cdkDropListGroup>
     <div class="example-container">
       <h4>Aguardando atend.</h4>
   
       <div
         cdkDropList
+        id="drop-1"
         [cdkDropListData]="crmData.waitingForService"
         class="example-list"
         (cdkDropListDropped)="drop($event)">
@@ -65,6 +73,7 @@
   
       <div
         cdkDropList
+        id="drop-2"
         [cdkDropListData]="crmData.inAttendence"
         class="example-list"
         (cdkDropListDropped)="drop($event)">
@@ -89,6 +98,7 @@
   
       <div
         cdkDropList
+        id="drop-3"
         [cdkDropListData]="crmData.proposalMade"
         class="example-list"
         (cdkDropListDropped)="drop($event)">
@@ -113,6 +123,7 @@
   
       <div
         cdkDropList
+        id="drop-4"
         [cdkDropListData]="crmData.notCompleted"
         class="example-list"
         (cdkDropListDropped)="drop($event)">
@@ -138,6 +149,7 @@
   
       <div
         cdkDropList
+        id="drop-5"
         [cdkDropListData]="crmData.sold"            
         class="example-list"
         (cdkDropListDropped)="drop($event)">
@@ -172,125 +184,143 @@
   
   
   <ng-template #createCustomer let-modal>
-    <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title">Cadastrar novo cliente</h4>
-      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
-    </div>
-    <div class="modal-body">
-      <form class="form-group" [formGroup]="createClientForm">
-        <div class="form-label-group mb-3">
-          <label for="inputEmail">Nome</label>
-          <input 
-              type="text" 
-              id="inputName" 
-              class="form-control form-input" 
-              placeholder="Nome de usuário" 
-              formControlName="name" 
-              autofocus="" 
-              required="">
+    <div class="position-relative">
+      <div *ngIf="modalLoading"  class="loader-container">
+        <div class="d-flex flex-column align-items-center" style="padding: 0.5em">
+          <i class="spinner-grow  text-info d-flex align-items center justify-content-center h-100" role="status">
+          </i>
+          <span class="sr-only text-info">Loading...</span>
         </div>
-        <div class="form-label-group mb-3">
-          <label for="inputEmail">E-mail</label>
-          <input 
-              type="email" 
-              id="inputEmail" 
-              class="form-control form-input" 
-              placeholder="exemplo@gmail.com" 
-              formControlName="email" 
-              autofocus="" 
-              required="">
-        </div>
-        <div class="form-label-group mb-3">
-          <label for="inputPhone">Telefone</label>
-          <input 
-              type="text" 
-              id="inputPhone" 
-              class="form-control form-input" 
-              placeholder="(51) 91234-5678" 
-              formControlName="phone" 
-              autofocus="" 
-              required="">
-        </div>
-        <hr class="hr" />
-        <p>Endereço:</p>
-        <div class="form-label-group mb-3"> 
-          <label for="inputZip">CEP:</label>
-          <input 
-              type="text" 
-              id="inputZip" 
-              class="form-control form-input" 
-              placeholder="Ex: 71694-028" 
-              formControlName="zip" 
-              autofocus="" 
-              required=""
-              on-blur="getAddressByZip(createClientForm.get('zip')?.value)">
-        </div>
-        <div class="form-label-group mb-3"> 
-          <label for="inputState">Estado</label>
-          <input 
-              type="text" 
-              id="inputState" 
-              maxlength="2"
-              class="form-control form-input" 
-              placeholder="Ex: CA" 
-              formControlName="state" 
-              autofocus="" 
-              required="">
-        </div>
-        <div class="form-label-group mb-3">
-          <label for="inputStreet">Rua</label>
-          <input 
-              type="text" 
-              id="inputStreet" 
-              class="form-control form-input" 
-              placeholder="Rua 19 Conjunto B" 
-              formControlName="street" 
-              autofocus="" 
-              required="">
-        </div>
-        <div class="form-label-group mb-3">
-          <label for="inputCity">Cidade</label>
-          <input 
-              type="text" 
-              id="inputCity" 
-              class="form-control form-input" 
-              placeholder="Brasília" 
-              formControlName="city" 
-              autofocus="" 
-              required="">
-        </div>
-        <div class="form-label-group mb-3">
-          <label for="inputNeighbourhood">Bairro</label>
-          <input 
-              type="text" 
-              id="inputNeighbourhood" 
-              class="form-control form-input" 
-              placeholder="Brasília" 
-              formControlName="neighborhood" 
-              autofocus="" 
-              required="">
-        </div>
-        <div class="form-label-group mb-3">
-          <label for="inputNumber">Número</label>
-          <input 
-              type="number" 
-              id="inputNumber" 
-              class="form-control form-input" 
-              placeholder="432" 
-              formControlName="number" 
-              autofocus="" 
-              required="">
-        </div>
-      </form>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-outline-dark" (click)="createClient(createClientForm)">Criar novo cliente</button>
+      </div>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Cadastrar novo cliente</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+      </div>
+      <div class="modal-body">
+        <form class="form-group" [formGroup]="createClientForm">
+          <div class="form-label-group mb-3">
+            <label for="inputEmail">Nome</label>
+            <input 
+                type="text" 
+                id="inputName" 
+                class="form-control form-input" 
+                placeholder="Nome de usuário" 
+                formControlName="name" 
+                autofocus="" 
+                required="">
+          </div>
+          <div class="form-label-group mb-3">
+            <label for="inputEmail">E-mail</label>
+            <input 
+                type="email" 
+                id="inputEmail" 
+                class="form-control form-input" 
+                placeholder="exemplo@gmail.com" 
+                formControlName="email" 
+                autofocus="" 
+                required="">
+          </div>
+          <div class="form-label-group mb-3">
+            <label for="inputPhone">Telefone</label>
+            <input 
+                type="text" 
+                id="inputPhone" 
+                class="form-control form-input" 
+                placeholder="(51) 91234-5678" 
+                formControlName="phone" 
+                autofocus="" 
+                required="">
+          </div>
+          <hr class="hr" />
+          <p>Endereço:</p>
+          <div class="form-label-group mb-3"> 
+            <label for="inputZip">CEP:</label>
+            <input 
+                type="text" 
+                id="inputZip" 
+                class="form-control form-input" 
+                placeholder="Ex: 71694-028" 
+                formControlName="zip" 
+                autofocus="" 
+                required=""
+                on-blur="getAddressByZip(createClientForm.get('zip')?.value)">
+          </div>
+          <div class="form-label-group mb-3"> 
+            <label for="inputState">Estado</label>
+            <input 
+                type="text" 
+                id="inputState" 
+                maxlength="2"
+                class="form-control form-input" 
+                placeholder="Ex: CA" 
+                formControlName="state" 
+                autofocus="" 
+                required="">
+          </div>
+          <div class="form-label-group mb-3">
+            <label for="inputStreet">Rua</label>
+            <input 
+                type="text" 
+                id="inputStreet" 
+                class="form-control form-input" 
+                placeholder="Rua 19 Conjunto B" 
+                formControlName="street" 
+                autofocus="" 
+                required="">
+          </div>
+          <div class="form-label-group mb-3">
+            <label for="inputCity">Cidade</label>
+            <input 
+                type="text" 
+                id="inputCity" 
+                class="form-control form-input" 
+                placeholder="Brasília" 
+                formControlName="city" 
+                autofocus="" 
+                required="">
+          </div>
+          <div class="form-label-group mb-3">
+            <label for="inputNeighbourhood">Bairro</label>
+            <input 
+                type="text" 
+                id="inputNeighbourhood" 
+                class="form-control form-input" 
+                placeholder="Brasília" 
+                formControlName="neighborhood" 
+                autofocus="" 
+                required="">
+          </div>
+          <div class="form-label-group mb-3">
+            <label for="inputNumber">Número</label>
+            <input 
+                type="number" 
+                id="inputNumber" 
+                class="form-control form-input" 
+                placeholder="432" 
+                formControlName="number" 
+                autofocus="" 
+                required="">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="createClient()">Criar novo cliente</button>
+      </div>
     </div>
   </ng-template>
   
   
   
   <ng-template #editCustomer let-modal>
+    <div class="position-relative">
+      <div  *ngIf="modalLoading" class="loader-modal-container">
+        <div class="d-flex flex-column align-items-center justify-content-center h-100" style="padding: 0.5em">
+          <i class="spinner-grow text-info" role="status">
+          </i>
+          <span class="sr-only text-info">Loading...</span>
+        </div>
+      </div>
+    </div>
     <div class="modal-header">
       <h4 class="modal-title" id="modal-basic-title">Editar infos do cliente: </h4>
       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
@@ -426,13 +456,6 @@
           <hr class="hr" />
           <span>Criado em {{ getFormatedDate(currentClient?.createdAt) }}</span>
         </div>
-        <div class="form-group">
-          <label for="dateOfBirth">Date of birth</label>
-          <div class="input-group">
-            <input id="dateOfBirth" name="dateOfBirth" class="form-control" placeholder="yyyy-mm-dd" ngbDatepicker #dp="ngbDatepicker">
-            <button type="button" class="btn btn-outline-secondary bi bi-calendar" (click)="dp.toggle()"></button>
-          </div>
-        </div>
       </form>
     </div>
     <div class="modal-footer">
@@ -443,86 +466,118 @@
   
   
   <ng-template #removeCustomer let-modal>
-    <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title">Remover Cliente</h4>
-      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
-    </div>
-    <div class="mt-2 px-3">
-      <span >
-        Tem certeza que deseja o cliente <strong>{{ currentClient?.name }}</strong> da lista?
-        Caso sim, por favor confirme escrevendo o nome dele abaixo
-      </span>
-    </div>
-    <div class="modal-body">
-      <form>
-        <div class="form-label-group mb-3">
-          <label for="inputEmail">Nome</label>
-          <input 
-              type="text" 
-              id="inputName" 
-              value="{{confirmationName}}"
-              class="form-control form-input" 
-              placeholder="Nome de usuário" 
-              formControlName="name" 
-              autofocus="" 
-              required="">
+    <div classs="position-relative">
+      <div  *ngIf="modalLoading" class="loader-modal-container">
+        <div class="d-flex flex-column align-items-center justify-content-center h-100" style="padding: 0.5em">
+          <i class="spinner-grow text-info" role="status">
+          </i>
+          <span class="sr-only text-info">Loading...</span>
         </div>
-      </form>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-outline-dark" (click)="deleteClient(currentClient)" [disabled]="confirmationName != currentClient?.name">Sim, deletar cliente</button>
+      </div>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Remover Cliente</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+      </div>
+      <div class="mt-2 px-3">
+        <span >
+          Tem certeza que deseja o cliente <strong>{{ currentClient?.name }}</strong> da lista?
+          Caso sim, por favor confirme escrevendo o nome dele abaixo
+        </span>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-label-group mb-3">
+            <label for="inputEmail">Nome</label>
+            <input 
+                type="text" 
+                id="inputName" 
+                name="confirm"
+                [(ngModel)]="confirmationName"
+                class="form-control form-input" 
+                placeholder="Nome de usuário" 
+                autofocus="" 
+                required="">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="deleteClient()" [disabled]="confirmationName != currentClient?.name">Sim, deletar cliente</button>
+      </div>
     </div>
   </ng-template>
   
   <ng-template #detailsCustomer let-modal>
-    <div class="modal-header">
-      <div class="d-flex flex-column">
-        <h4 class="modal-title" id="modal-basic-title">{{ currentClient?.name }}</h4>
-        <span>na lista <a>{{currentClient?.status}}</a></span>
-        <small  *ngIf="currentClient?.agentName?.length > 0">Reponsável: {{currentClient?.agentName}}</small>
-      </div>
-      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
-    </div>
-    <div class="modal-body">
-      <div class="d-flex justify-content-between mb-3">
-        <a 
-          class="btn btn-secondary dropdown-toggle" 
-          href="#" 
-          role="button" 
-          id="dropdownMenuLink" 
-          data-bs-toggle="dropdown"
-          aria-haspopup="true" 
-          aria-expanded="false">
-          Atribuir a membro do time
-        </a>
-        <div>
-          <ul class="dropdown-menu"  aria-labelledby="dropdownMenuButton">
-            <li *ngFor="let item of agents" (click)="asignAgent(currentClient?.id, item?.name)">
-              <a class="dropdown-item" href="#" >{{ item?.name}}</a>
-            </li>
-          </ul>
+    <div class="position-relative">
+      <div  *ngIf="modalLoading" class="loader-modal-container">
+        <div class="d-flex flex-column align-items-center justify-content-center h-100" style="padding: 0.5em">
+          <i class="spinner-grow text-info" role="status">
+          </i>
+          <span class="sr-only text-info">Loading...</span>
         </div>
-        <button class="btn btn-primary" (click)="asignMyself(currentClient?.id)">Atribuir a mim</button>
       </div>
-      <div class="d-flex flex-column">
-        <span>Nome: {{currentClient?.name}}</span>
-        <span>Email: {{currentClient?.email}}</span>
-        <span class="custom-link" (click)="openInGmail(currentClient?.email)">
-          Telefone: 
-          <span  class="custom-link" (click)="openInWhatsapp(currentClient?.phone)">{{currentClient?.phone}}</span>
-        </span>
-        <hr class="hr" />
-        <p>Endereço:</p>
-        <span>Estado: {{currentClient?.address.state}}</span>
-        <span>Rua: {{currentClient?.address.street}}</span>
-        <span>Cidade: {{currentClient?.address.city}}</span>
-        <span>Bairro: {{currentClient?.address.neighborhood}}</span>
-        <span>Número: {{currentClient?.address.number}}</span>
-        <span>CEP: {{currentClient?.address.zip}}</span>
+      <div class="modal-header">
+        <div class="d-flex flex-column">
+          <h4 class="modal-title" id="modal-basic-title">{{ currentClient?.name }}</h4>
+          <span>na lista <u>{{currentClient?.status}}</u></span>
+          <small class="text-muted" *ngIf="currentClient?.agentName?.length > 0"><strong>Reponsável: </strong>{{currentClient?.agentName}}</small>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
       </div>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-outline-dark" (click)="open(editCustomer, currentClient)">Editar</button>
+      <div class="modal-body">
+        <div class="d-flex justify-content-between mb-3">
+          <a 
+            class="btn btn-secondary dropdown-toggle" 
+            href="#" 
+            role="button" 
+            id="dropdownMenuLink" 
+            data-bs-toggle="dropdown"
+            aria-haspopup="true" 
+            aria-expanded="false">
+            Atribuir a membro do time
+          </a>
+          <div>
+            <ul class="dropdown-menu details"  aria-labelledby="dropdownMenuButton">
+              <li *ngFor="let item of agents" (click)="asignAgent(currentClient?.id, item?.name)">
+                <a class="dropdown-item" href="#" >{{ item?.name}}</a>
+              </li>
+            </ul>
+          </div>
+          <button class="btn btn-primary" (click)="asignMyself(currentClient?.id)">Atribuir a mim</button>
+        </div>
+        <div class="d-flex flex-column">
+          <p>
+            <u>Dados:</u>
+          </p>
+          <span>Nome: {{currentClient?.name}}</span>
+          <span class="custom-link" (click)="openInGmail(currentClient?.email)">
+            Email: 
+            {{currentClient?.email}}
+            <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20">
+              <path d="M180-120q-24 0-42-18t-18-42v-600q0-24 18-42t42-18h279v60H180v600h600v-279h60v279q0 24-18 42t-42 18H180Zm202-219-42-43 398-398H519v-60h321v321h-60v-218L382-339Z"/>
+            </svg>
+          </span>
+          <span class="custom-link" (click)="openInWhatsapp(currentClient?.phone)">
+            Telefone: 
+           {{currentClient?.phone}}
+            <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20">
+              <path d="M180-120q-24 0-42-18t-18-42v-600q0-24 18-42t42-18h279v60H180v600h600v-279h60v279q0 24-18 42t-42 18H180Zm202-219-42-43 398-398H519v-60h321v321h-60v-218L382-339Z"/>
+            </svg>
+          </span>
+          <hr class="hr" />
+          <p>
+            <u>Endereço:</u>
+          </p>
+          <span>CEP: {{currentClient?.address.zip}}</span>
+          <span>Rua: {{currentClient?.address.street}}</span>
+          <span>Cidade: {{currentClient?.address.city}}</span>
+          <span>Estado: {{currentClient?.address.state}}</span>
+          <span>Bairro: {{currentClient?.address.neighborhood}}</span>
+          <span>Número: {{currentClient?.address.number}}</span>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="open(editCustomer, currentClient)">Editar</button>
+      </div>
     </div>
   </ng-template>
   

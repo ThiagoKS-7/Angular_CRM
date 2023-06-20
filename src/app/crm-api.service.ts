@@ -216,7 +216,7 @@ export class CrmApiService {
       const validToken = await this.checkToken();
       if (validToken) {
         const token = await this.getToken();
-        const response = await axios.patch("/agent/delete-client", params, { headers: {
+        const response = await axios.post("/agent/delete-client", params, { headers: {
           'Authorization':  `Bearer ${token}`,
           'Access-Control-Allow-Origin': '*',
           'Methods': '*',
