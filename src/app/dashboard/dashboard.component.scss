@@ -125,3 +125,14 @@
       font-style: italic;
     }
   }
+
+  .subtitle {
+    width: fit-content;
+    font-size: 10px;
+  }
+  
+  .agent-wrapper {
+    &:hover {
+      cursor: pointer;
+    }
+  }

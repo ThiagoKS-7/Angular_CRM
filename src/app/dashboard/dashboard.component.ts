@@ -27,6 +27,7 @@ export class DashboardComponent {
     notCompleted: [],
     sold: [],
   };
+  public searchAgentName: string = '';
   public confirmationName: string = '';
   public formTemplate: object = { 
     name: '',
@@ -77,7 +78,6 @@ export class DashboardComponent {
       "drop-4": "Não concluído",
       "drop-5": "Vendido"
     }
-    console.log(event)
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
@@ -118,7 +118,7 @@ export class DashboardComponent {
       await this.crmApiService.createClient(params);
       await this.listClients();
     } catch (error) {
-      console.error(error);
+      console.error("createError", error);
     } finally {
       this.modalLoading =false;
     }
@@ -169,7 +169,28 @@ export class DashboardComponent {
 
   }
   async listClientsByAgent() {
-    return await this.crmApiService.listClientsByAgent();
+    try {    
+      this.loading = true;
+      const params = {
+        name: this.searchAgentName,
+      }
+      console.log(params);
+      const {data} = await this.crmApiService.listClientsByAgent(params);
+      console.log(data);
+      if (!data){
+       return;
+      } else {
+         this.crmData.waitingForService = data.data.waiting || [],
+         this.crmData.inAttendence = data.data.inAttendence || [],
+         this.crmData.proposalMade = data.data.proposalMade || [],
+         this.crmData.notCompleted = data.data.notCompleted || [],
+         this.crmData.sold = data.data.sold || []
+       }
+    } catch(err) {
+      console.error("listClientsByAgentError", err);
+    } finally {
+      this.loading = false;
+    }
   }
   async listAgents() {
     const { data } = await this.crmApiService.listAgents();
@@ -188,7 +209,7 @@ export class DashboardComponent {
       await this.crmApiService.updateStatus(params);
       await this.listClients();
     } catch(err) {
-      console.log(err);
+      console.error("updateError",err);
     } finally {
       this.loading = false;
     }
@@ -199,7 +220,7 @@ export class DashboardComponent {
       await this.crmApiService.deleteClient({ id: this.currentClient.id});
       await this.listClients();
     } catch (err) {
-      console.error(err);
+      console.error("deleteError",err);
     } finally {
       this.modalLoading = false;
       this.modalService.dismissAll('Cross click');
@@ -217,8 +238,5 @@ export class DashboardComponent {
         zip: data.cep
       })
     }
-  }
-  onChange(event: any) {
-    console.log(event);
   }
 }

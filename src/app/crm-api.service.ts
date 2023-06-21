@@ -143,12 +143,13 @@ export class CrmApiService {
       this.handleException(error);
     }
   }
-  async listClientsByAgent(): Promise<any> {
+  async listClientsByAgent(params: object): Promise<any> {
     try {
+      console.log("no service", params);
       const validToken = await this.checkToken();
       if (validToken) {
         const token = await this.getToken();
-        const response = await axios.get("/agent/list-clients-by-agent", { headers: {
+        const response = await axios.get("/agent/list-clients-by-agent", {params, headers: {
           'Authorization':  `Bearer ${token}`,
           'Access-Control-Allow-Origin': '*',
           'Methods': '*',

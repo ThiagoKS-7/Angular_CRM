@@ -11,8 +11,23 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent" style="justify-content:inherit">
         <form class="d-flex my-2">
-          <input class="form-control me-2" type="search" placeholder="Nome do agente" aria-label="Search" tabindex="1" >
-          <button class="btn btn-outline-success" type="submit" tabindex="1">Pesquisar</button>
+          <input 
+            class="form-control me-2" 
+            type="search" 
+            name="agentName"
+            placeholder="Nome do agente" 
+            aria-label="Search" 
+            tabindex="1" 
+            [(ngModel)]="searchAgentName"
+          >
+          <button 
+            class="btn btn-outline-success" 
+            type="submit" 
+            tabindex="1"
+            (click)="listClientsByAgent()"
+          >
+            Pesquisar
+          </button>
         </form>
         <ul class="navbar-nav">
           <li class="nav-item" (click)="openNewTab('https://web.skype.com/?openPstnPage=true')" tabindex="1" >
@@ -53,14 +68,20 @@
         class="example-list"
         (cdkDropListDropped)="drop($event)">
         <div class="example-box" *ngFor="let item of crmData.waitingForService" tabindex="1" cdkDrag>
-          <span class="box-content" (click)="open(detailsCustomer, item)">
+          <span class="box-content d-flex flex-column" (click)="open(detailsCustomer, item)">
             {{ item.name }}
+            <small class="subtitle">{{ getFormatedDate(currentClient?.createdAt) }}</small>
           </span>
           <div>
             <ul class="dropdown-menu"  aria-labelledby="dropdownMenuButton">
               <li><a class="dropdown-item" href="#" (click)="open(detailsCustomer, item)">Abrir detalhes</a></li>
               <li><a class="dropdown-item" href="#" (click)="open(removeCustomer, item)">Remover</a></li>
             </ul>
+          </div>
+          <div title="{{'Responsável: ' + item.agentName}}" class="agent-wrapper">
+            <svg xmlns="http://www.w3.org/2000/svg"  height="20" viewBox="0 -960 960 960" width="20">
+              <path d="M140-80q-24 0-42-18t-18-42v-480q0-24 18-42t42-18h250v-140q0-24 18-42t42.411-18h59.178Q534-880 552-862t18 42v140h250q24 0 42 18t18 42v480q0 24-18 42t-42 18H140Zm0-60h680v-480H570v30q0 28-18 44t-42.411 16h-59.178Q426-530 408-546t-18-44v-30H140v480Zm92-107h239v-14q0-18-9-32t-23-19q-32-11-50-14.5t-35-3.5q-19 0-40.5 4.5T265-312q-15 5-24 19t-9 32v14Zm336-67h170v-50H568v50Zm-214-50q22.5 0 38.25-15.75T408-418q0-22.5-15.75-38.25T354-472q-22.5 0-38.25 15.75T300-418q0 22.5 15.75 38.25T354-364Zm214-63h170v-50H568v50ZM450-590h60v-230h-60v230Zm30 210Z"/>
+            </svg>
           </div>
           <svg class="edit-icon" data-bs-toggle="dropdown" id="dropdownMenuButton" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20">
             <path d="M180-180h44l443-443-44-44-443 443v44Zm614-486L666-794l42-42q17-17 42-17t42 17l44 44q17 17 17 42t-17 42l-42 42Zm-42 42L248-120H120v-128l504-504 128 128Zm-107-21-22-22 44 44-22-22Z"/>
@@ -78,14 +99,20 @@
         class="example-list"
         (cdkDropListDropped)="drop($event)">
         <div class="example-box" *ngFor="let item of crmData.inAttendence" tabindex="1"  cdkDrag>
-          <span class="box-content" (click)="open(detailsCustomer, item)">
+          <span class="box-content d-flex flex-column" (click)="open(detailsCustomer, item)">
             {{ item.name }}
+            <small class="subtitle">{{ getFormatedDate(currentClient?.createdAt) }}</small>
           </span>
           <div>
             <ul class="dropdown-menu"  aria-labelledby="dropdownMenuButton">
               <li><a class="dropdown-item" href="#" (click)="open(detailsCustomer, item)">Abrir detalhes</a></li>
               <li><a class="dropdown-item" href="#" (click)="open(removeCustomer, item)">Remover</a></li>
             </ul>
+          </div>
+          <div title="{{'Responsável: ' + item.agentName}}" class="agent-wrapper">
+            <svg xmlns="http://www.w3.org/2000/svg"  height="20" viewBox="0 -960 960 960" width="20">
+              <path d="M140-80q-24 0-42-18t-18-42v-480q0-24 18-42t42-18h250v-140q0-24 18-42t42.411-18h59.178Q534-880 552-862t18 42v140h250q24 0 42 18t18 42v480q0 24-18 42t-42 18H140Zm0-60h680v-480H570v30q0 28-18 44t-42.411 16h-59.178Q426-530 408-546t-18-44v-30H140v480Zm92-107h239v-14q0-18-9-32t-23-19q-32-11-50-14.5t-35-3.5q-19 0-40.5 4.5T265-312q-15 5-24 19t-9 32v14Zm336-67h170v-50H568v50Zm-214-50q22.5 0 38.25-15.75T408-418q0-22.5-15.75-38.25T354-472q-22.5 0-38.25 15.75T300-418q0 22.5 15.75 38.25T354-364Zm214-63h170v-50H568v50ZM450-590h60v-230h-60v230Zm30 210Z"/>
+            </svg>
           </div>
           <svg class="edit-icon" data-bs-toggle="dropdown" id="dropdownMenuButton" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20">
             <path d="M180-180h44l443-443-44-44-443 443v44Zm614-486L666-794l42-42q17-17 42-17t42 17l44 44q17 17 17 42t-17 42l-42 42Zm-42 42L248-120H120v-128l504-504 128 128Zm-107-21-22-22 44 44-22-22Z"/>
@@ -103,14 +130,20 @@
         class="example-list"
         (cdkDropListDropped)="drop($event)">
         <div class="example-box" *ngFor="let item of crmData.proposalMade"  tabindex="1"  cdkDrag>
-          <span class="box-content" (click)="open(detailsCustomer, item)">
+          <span class="box-content d-flex flex-column" (click)="open(detailsCustomer, item)">
             {{ item.name }}
+            <small class="subtitle">{{ getFormatedDate(currentClient?.createdAt) }}</small>
           </span>
           <div>
             <ul class="dropdown-menu"  aria-labelledby="dropdownMenuButton">
               <li><a class="dropdown-item" href="#" (click)="open(detailsCustomer, item)">Abrir detalhes</a></li>
               <li><a class="dropdown-item" href="#" (click)="open(removeCustomer, item)">Remover</a></li>
             </ul>
+          </div>
+          <div title="{{'Responsável: ' + item.agentName}}" class="agent-wrapper">
+            <svg xmlns="http://www.w3.org/2000/svg"  height="20" viewBox="0 -960 960 960" width="20">
+              <path d="M140-80q-24 0-42-18t-18-42v-480q0-24 18-42t42-18h250v-140q0-24 18-42t42.411-18h59.178Q534-880 552-862t18 42v140h250q24 0 42 18t18 42v480q0 24-18 42t-42 18H140Zm0-60h680v-480H570v30q0 28-18 44t-42.411 16h-59.178Q426-530 408-546t-18-44v-30H140v480Zm92-107h239v-14q0-18-9-32t-23-19q-32-11-50-14.5t-35-3.5q-19 0-40.5 4.5T265-312q-15 5-24 19t-9 32v14Zm336-67h170v-50H568v50Zm-214-50q22.5 0 38.25-15.75T408-418q0-22.5-15.75-38.25T354-472q-22.5 0-38.25 15.75T300-418q0 22.5 15.75 38.25T354-364Zm214-63h170v-50H568v50ZM450-590h60v-230h-60v230Zm30 210Z"/>
+            </svg>
           </div>
           <svg class="edit-icon" data-bs-toggle="dropdown" id="dropdownMenuButton" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20">
             <path d="M180-180h44l443-443-44-44-443 443v44Zm614-486L666-794l42-42q17-17 42-17t42 17l44 44q17 17 17 42t-17 42l-42 42Zm-42 42L248-120H120v-128l504-504 128 128Zm-107-21-22-22 44 44-22-22Z"/>
@@ -128,14 +161,20 @@
         class="example-list"
         (cdkDropListDropped)="drop($event)">
         <div class="example-box" *ngFor="let item of crmData.notCompleted" tabindex="1"  cdkDrag>
-          <span class="box-content" (click)="open(detailsCustomer, item)">
+          <span class="box-content d-flex flex-column" (click)="open(detailsCustomer, item)">
             {{ item.name }}
+            <small class="subtitle">{{ getFormatedDate(currentClient?.createdAt) }}</small>
           </span>
           <div>
             <ul class="dropdown-menu"  aria-labelledby="dropdownMenuButton">
               <li><a class="dropdown-item" href="#" (click)="open(detailsCustomer, item)">Abrir detalhes</a></li>
               <li><a class="dropdown-item" href="#" (click)="open(removeCustomer, item)">Remover</a></li>
             </ul>
+          </div>
+          <div title="{{'Responsável: ' + item.agentName}}" class="agent-wrapper">
+            <svg xmlns="http://www.w3.org/2000/svg"  height="20" viewBox="0 -960 960 960" width="20">
+              <path d="M140-80q-24 0-42-18t-18-42v-480q0-24 18-42t42-18h250v-140q0-24 18-42t42.411-18h59.178Q534-880 552-862t18 42v140h250q24 0 42 18t18 42v480q0 24-18 42t-42 18H140Zm0-60h680v-480H570v30q0 28-18 44t-42.411 16h-59.178Q426-530 408-546t-18-44v-30H140v480Zm92-107h239v-14q0-18-9-32t-23-19q-32-11-50-14.5t-35-3.5q-19 0-40.5 4.5T265-312q-15 5-24 19t-9 32v14Zm336-67h170v-50H568v50Zm-214-50q22.5 0 38.25-15.75T408-418q0-22.5-15.75-38.25T354-472q-22.5 0-38.25 15.75T300-418q0 22.5 15.75 38.25T354-364Zm214-63h170v-50H568v50ZM450-590h60v-230h-60v230Zm30 210Z"/>
+            </svg>
           </div>
           <svg class="edit-icon" data-bs-toggle="dropdown" id="dropdownMenuButton" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20">
             <path d="M180-180h44l443-443-44-44-443 443v44Zm614-486L666-794l42-42q17-17 42-17t42 17l44 44q17 17 17 42t-17 42l-42 42Zm-42 42L248-120H120v-128l504-504 128 128Zm-107-21-22-22 44 44-22-22Z"/>
@@ -154,14 +193,20 @@
         class="example-list"
         (cdkDropListDropped)="drop($event)">
         <div class="example-box" *ngFor="let item of crmData.sold" tabindex="1"  cdkDrag>
-          <span class="box-content" (click)="open(detailsCustomer, item)">
+          <span class="box-content d-flex flex-column" (click)="open(detailsCustomer, item)">
             {{ item.name }}
+            <small class="subtitle">{{ getFormatedDate(currentClient?.createdAt) }}</small>
           </span>
           <div>
             <ul class="dropdown-menu"  aria-labelledby="dropdownMenuButton">
               <li><a class="dropdown-item" href="#" (click)="open(detailsCustomer, item)">Abrir detalhes</a></li>
               <li><a class="dropdown-item" href="#" (click)="open(removeCustomer, item)">Remover</a></li>
             </ul>
+          </div>
+          <div title="{{'Responsável: ' + item.agentName}}" class="agent-wrapper">
+            <svg xmlns="http://www.w3.org/2000/svg"  height="20" viewBox="0 -960 960 960" width="20">
+              <path d="M140-80q-24 0-42-18t-18-42v-480q0-24 18-42t42-18h250v-140q0-24 18-42t42.411-18h59.178Q534-880 552-862t18 42v140h250q24 0 42 18t18 42v480q0 24-18 42t-42 18H140Zm0-60h680v-480H570v30q0 28-18 44t-42.411 16h-59.178Q426-530 408-546t-18-44v-30H140v480Zm92-107h239v-14q0-18-9-32t-23-19q-32-11-50-14.5t-35-3.5q-19 0-40.5 4.5T265-312q-15 5-24 19t-9 32v14Zm336-67h170v-50H568v50Zm-214-50q22.5 0 38.25-15.75T408-418q0-22.5-15.75-38.25T354-472q-22.5 0-38.25 15.75T300-418q0 22.5 15.75 38.25T354-364Zm214-63h170v-50H568v50ZM450-590h60v-230h-60v230Zm30 210Z"/>
+            </svg>
           </div>
           <svg class="edit-icon" data-bs-toggle="dropdown" id="dropdownMenuButton" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20">
             <path d="M180-180h44l443-443-44-44-443 443v44Zm614-486L666-794l42-42q17-17 42-17t42 17l44 44q17 17 17 42t-17 42l-42 42Zm-42 42L248-120H120v-128l504-504 128 128Zm-107-21-22-22 44 44-22-22Z"/>
@@ -519,7 +564,13 @@
         <div class="d-flex flex-column">
           <h4 class="modal-title" id="modal-basic-title">{{ currentClient?.name }}</h4>
           <span>na lista <u>{{currentClient?.status}}</u></span>
-          <small class="text-muted" *ngIf="currentClient?.agentName?.length > 0"><strong>Reponsável: </strong>{{currentClient?.agentName}}</small>
+          <small class="text-muted" *ngIf="currentClient?.agentName?.length > 0">
+            <strong>Reponsável: </strong>
+            {{currentClient?.agentName}}
+            <svg xmlns="http://www.w3.org/2000/svg"  height="20" viewBox="0 -960 960 960" width="20">
+              <path d="M140-80q-24 0-42-18t-18-42v-480q0-24 18-42t42-18h250v-140q0-24 18-42t42.411-18h59.178Q534-880 552-862t18 42v140h250q24 0 42 18t18 42v480q0 24-18 42t-42 18H140Zm0-60h680v-480H570v30q0 28-18 44t-42.411 16h-59.178Q426-530 408-546t-18-44v-30H140v480Zm92-107h239v-14q0-18-9-32t-23-19q-32-11-50-14.5t-35-3.5q-19 0-40.5 4.5T265-312q-15 5-24 19t-9 32v14Zm336-67h170v-50H568v50Zm-214-50q22.5 0 38.25-15.75T408-418q0-22.5-15.75-38.25T354-472q-22.5 0-38.25 15.75T300-418q0 22.5 15.75 38.25T354-364Zm214-63h170v-50H568v50ZM450-590h60v-230h-60v230Zm30 210Z"/>
+            </svg>
+          </small>
         </div>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
       </div>
@@ -573,6 +624,8 @@
           <span>Estado: {{currentClient?.address.state}}</span>
           <span>Bairro: {{currentClient?.address.neighborhood}}</span>
           <span>Número: {{currentClient?.address.number}}</span>
+          <hr class="hr" />
+          <span>Criado em {{ getFormatedDate(currentClient?.createdAt) }}</span>
         </div>
       </div>
       <div class="modal-footer">
