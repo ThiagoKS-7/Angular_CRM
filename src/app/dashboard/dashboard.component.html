@@ -70,7 +70,7 @@
         <div class="example-box" *ngFor="let item of crmData.waitingForService" tabindex="1" cdkDrag>
           <span class="box-content d-flex flex-column" (click)="open(detailsCustomer, item)">
             {{ item.name }}
-            <small class="subtitle">{{ getFormatedDate(currentClient?.createdAt) }}</small>
+            <small class="subtitle">{{ getFormatedDate(item?.createdAt) }}</small>
           </span>
           <div>
             <ul class="dropdown-menu"  aria-labelledby="dropdownMenuButton">
@@ -79,9 +79,11 @@
             </ul>
           </div>
           <div title="{{'Responsável: ' + item.agentName}}" class="agent-wrapper">
-            <svg xmlns="http://www.w3.org/2000/svg"  height="20" viewBox="0 -960 960 960" width="20">
-              <path d="M140-80q-24 0-42-18t-18-42v-480q0-24 18-42t42-18h250v-140q0-24 18-42t42.411-18h59.178Q534-880 552-862t18 42v140h250q24 0 42 18t18 42v480q0 24-18 42t-42 18H140Zm0-60h680v-480H570v30q0 28-18 44t-42.411 16h-59.178Q426-530 408-546t-18-44v-30H140v480Zm92-107h239v-14q0-18-9-32t-23-19q-32-11-50-14.5t-35-3.5q-19 0-40.5 4.5T265-312q-15 5-24 19t-9 32v14Zm336-67h170v-50H568v50Zm-214-50q22.5 0 38.25-15.75T408-418q0-22.5-15.75-38.25T354-472q-22.5 0-38.25 15.75T300-418q0 22.5 15.75 38.25T354-364Zm214-63h170v-50H568v50ZM450-590h60v-230h-60v230Zm30 210Z"/>
-            </svg>
+            <div class="rounded-circle" style="background:#cdcdcd; padding: 0.5em;
+            font-weight: bolder;">
+              <span>{{item.agentName.split(" ")[0][0] }}</span>
+              <span>{{item.agentName.split(" ")[1][0] }}</span>
+            </div>
           </div>
           <svg class="edit-icon" data-bs-toggle="dropdown" id="dropdownMenuButton" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20">
             <path d="M180-180h44l443-443-44-44-443 443v44Zm614-486L666-794l42-42q17-17 42-17t42 17l44 44q17 17 17 42t-17 42l-42 42Zm-42 42L248-120H120v-128l504-504 128 128Zm-107-21-22-22 44 44-22-22Z"/>
@@ -101,7 +103,7 @@
         <div class="example-box" *ngFor="let item of crmData.inAttendence" tabindex="1"  cdkDrag>
           <span class="box-content d-flex flex-column" (click)="open(detailsCustomer, item)">
             {{ item.name }}
-            <small class="subtitle">{{ getFormatedDate(currentClient?.createdAt) }}</small>
+            <small class="subtitle">{{ getFormatedDate(item?.createdAt) }}</small>
           </span>
           <div>
             <ul class="dropdown-menu"  aria-labelledby="dropdownMenuButton">
@@ -110,9 +112,11 @@
             </ul>
           </div>
           <div title="{{'Responsável: ' + item.agentName}}" class="agent-wrapper">
-            <svg xmlns="http://www.w3.org/2000/svg"  height="20" viewBox="0 -960 960 960" width="20">
-              <path d="M140-80q-24 0-42-18t-18-42v-480q0-24 18-42t42-18h250v-140q0-24 18-42t42.411-18h59.178Q534-880 552-862t18 42v140h250q24 0 42 18t18 42v480q0 24-18 42t-42 18H140Zm0-60h680v-480H570v30q0 28-18 44t-42.411 16h-59.178Q426-530 408-546t-18-44v-30H140v480Zm92-107h239v-14q0-18-9-32t-23-19q-32-11-50-14.5t-35-3.5q-19 0-40.5 4.5T265-312q-15 5-24 19t-9 32v14Zm336-67h170v-50H568v50Zm-214-50q22.5 0 38.25-15.75T408-418q0-22.5-15.75-38.25T354-472q-22.5 0-38.25 15.75T300-418q0 22.5 15.75 38.25T354-364Zm214-63h170v-50H568v50ZM450-590h60v-230h-60v230Zm30 210Z"/>
-            </svg>
+            <div class="rounded-circle" style="background:#cdcdcd; padding: 0.5em;
+            font-weight: bolder;">
+              <span>{{item.agentName.split(" ")[0][0] }}</span>
+              <span>{{item.agentName.split(" ")[1][0] }}</span>
+            </div>
           </div>
           <svg class="edit-icon" data-bs-toggle="dropdown" id="dropdownMenuButton" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20">
             <path d="M180-180h44l443-443-44-44-443 443v44Zm614-486L666-794l42-42q17-17 42-17t42 17l44 44q17 17 17 42t-17 42l-42 42Zm-42 42L248-120H120v-128l504-504 128 128Zm-107-21-22-22 44 44-22-22Z"/>
@@ -132,7 +136,7 @@
         <div class="example-box" *ngFor="let item of crmData.proposalMade"  tabindex="1"  cdkDrag>
           <span class="box-content d-flex flex-column" (click)="open(detailsCustomer, item)">
             {{ item.name }}
-            <small class="subtitle">{{ getFormatedDate(currentClient?.createdAt) }}</small>
+            <small class="subtitle">{{ getFormatedDate(item?.createdAt) }}</small>
           </span>
           <div>
             <ul class="dropdown-menu"  aria-labelledby="dropdownMenuButton">
@@ -141,9 +145,11 @@
             </ul>
           </div>
           <div title="{{'Responsável: ' + item.agentName}}" class="agent-wrapper">
-            <svg xmlns="http://www.w3.org/2000/svg"  height="20" viewBox="0 -960 960 960" width="20">
-              <path d="M140-80q-24 0-42-18t-18-42v-480q0-24 18-42t42-18h250v-140q0-24 18-42t42.411-18h59.178Q534-880 552-862t18 42v140h250q24 0 42 18t18 42v480q0 24-18 42t-42 18H140Zm0-60h680v-480H570v30q0 28-18 44t-42.411 16h-59.178Q426-530 408-546t-18-44v-30H140v480Zm92-107h239v-14q0-18-9-32t-23-19q-32-11-50-14.5t-35-3.5q-19 0-40.5 4.5T265-312q-15 5-24 19t-9 32v14Zm336-67h170v-50H568v50Zm-214-50q22.5 0 38.25-15.75T408-418q0-22.5-15.75-38.25T354-472q-22.5 0-38.25 15.75T300-418q0 22.5 15.75 38.25T354-364Zm214-63h170v-50H568v50ZM450-590h60v-230h-60v230Zm30 210Z"/>
-            </svg>
+            <div class="rounded-circle" style="background:#cdcdcd; padding: 0.5em;
+            font-weight: bolder;">
+              <span>{{item.agentName.split(" ")[0][0] }}</span>
+              <span>{{item.agentName.split(" ")[1][0] }}</span>
+            </div>
           </div>
           <svg class="edit-icon" data-bs-toggle="dropdown" id="dropdownMenuButton" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20">
             <path d="M180-180h44l443-443-44-44-443 443v44Zm614-486L666-794l42-42q17-17 42-17t42 17l44 44q17 17 17 42t-17 42l-42 42Zm-42 42L248-120H120v-128l504-504 128 128Zm-107-21-22-22 44 44-22-22Z"/>
@@ -163,7 +169,7 @@
         <div class="example-box" *ngFor="let item of crmData.notCompleted" tabindex="1"  cdkDrag>
           <span class="box-content d-flex flex-column" (click)="open(detailsCustomer, item)">
             {{ item.name }}
-            <small class="subtitle">{{ getFormatedDate(currentClient?.createdAt) }}</small>
+            <small class="subtitle">{{ getFormatedDate(item?.createdAt) }}</small>
           </span>
           <div>
             <ul class="dropdown-menu"  aria-labelledby="dropdownMenuButton">
@@ -172,9 +178,11 @@
             </ul>
           </div>
           <div title="{{'Responsável: ' + item.agentName}}" class="agent-wrapper">
-            <svg xmlns="http://www.w3.org/2000/svg"  height="20" viewBox="0 -960 960 960" width="20">
-              <path d="M140-80q-24 0-42-18t-18-42v-480q0-24 18-42t42-18h250v-140q0-24 18-42t42.411-18h59.178Q534-880 552-862t18 42v140h250q24 0 42 18t18 42v480q0 24-18 42t-42 18H140Zm0-60h680v-480H570v30q0 28-18 44t-42.411 16h-59.178Q426-530 408-546t-18-44v-30H140v480Zm92-107h239v-14q0-18-9-32t-23-19q-32-11-50-14.5t-35-3.5q-19 0-40.5 4.5T265-312q-15 5-24 19t-9 32v14Zm336-67h170v-50H568v50Zm-214-50q22.5 0 38.25-15.75T408-418q0-22.5-15.75-38.25T354-472q-22.5 0-38.25 15.75T300-418q0 22.5 15.75 38.25T354-364Zm214-63h170v-50H568v50ZM450-590h60v-230h-60v230Zm30 210Z"/>
-            </svg>
+            <div class="rounded-circle" style="background:#cdcdcd; padding: 0.5em;
+            font-weight: bolder;">
+              <span>{{item.agentName.split(" ")[0][0] }}</span>
+              <span>{{item.agentName.split(" ")[1][0] }}</span>
+            </div>
           </div>
           <svg class="edit-icon" data-bs-toggle="dropdown" id="dropdownMenuButton" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20">
             <path d="M180-180h44l443-443-44-44-443 443v44Zm614-486L666-794l42-42q17-17 42-17t42 17l44 44q17 17 17 42t-17 42l-42 42Zm-42 42L248-120H120v-128l504-504 128 128Zm-107-21-22-22 44 44-22-22Z"/>
@@ -195,7 +203,7 @@
         <div class="example-box" *ngFor="let item of crmData.sold" tabindex="1"  cdkDrag>
           <span class="box-content d-flex flex-column" (click)="open(detailsCustomer, item)">
             {{ item.name }}
-            <small class="subtitle">{{ getFormatedDate(currentClient?.createdAt) }}</small>
+            <small class="subtitle">{{ getFormatedDate(item?.createdAt) }}</small>
           </span>
           <div>
             <ul class="dropdown-menu"  aria-labelledby="dropdownMenuButton">
@@ -204,9 +212,11 @@
             </ul>
           </div>
           <div title="{{'Responsável: ' + item.agentName}}" class="agent-wrapper">
-            <svg xmlns="http://www.w3.org/2000/svg"  height="20" viewBox="0 -960 960 960" width="20">
-              <path d="M140-80q-24 0-42-18t-18-42v-480q0-24 18-42t42-18h250v-140q0-24 18-42t42.411-18h59.178Q534-880 552-862t18 42v140h250q24 0 42 18t18 42v480q0 24-18 42t-42 18H140Zm0-60h680v-480H570v30q0 28-18 44t-42.411 16h-59.178Q426-530 408-546t-18-44v-30H140v480Zm92-107h239v-14q0-18-9-32t-23-19q-32-11-50-14.5t-35-3.5q-19 0-40.5 4.5T265-312q-15 5-24 19t-9 32v14Zm336-67h170v-50H568v50Zm-214-50q22.5 0 38.25-15.75T408-418q0-22.5-15.75-38.25T354-472q-22.5 0-38.25 15.75T300-418q0 22.5 15.75 38.25T354-364Zm214-63h170v-50H568v50ZM450-590h60v-230h-60v230Zm30 210Z"/>
-            </svg>
+            <div class="rounded-circle" style="background:#cdcdcd; padding: 0.5em;
+            font-weight: bolder;">
+              <span>{{item.agentName.split(" ")[0][0] }}</span>
+              <span>{{item.agentName.split(" ")[1][0] }}</span>
+            </div>
           </div>
           <svg class="edit-icon" data-bs-toggle="dropdown" id="dropdownMenuButton" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20">
             <path d="M180-180h44l443-443-44-44-443 443v44Zm614-486L666-794l42-42q17-17 42-17t42 17l44 44q17 17 17 42t-17 42l-42 42Zm-42 42L248-120H120v-128l504-504 128 128Zm-107-21-22-22 44 44-22-22Z"/>
@@ -372,134 +382,108 @@
     </div>
     <div class="modal-body">
       <form class="form-group" [formGroup]="editClientForm">
-        <div class="d-flex flex-column">
-          <span>ID: {{currentClient?.id}}</span>
-          <div class="form-label-group mb-3">
-            <label for="inputEmail">Nome</label>
-            <input 
-                type="text" 
-                id="inputName" 
-                value="{{currentClient?.name}}"
-                class="form-control form-input" 
-                placeholder="Nome de usuário" 
-                formControlName="name" 
-                autofocus="" 
-                required="">
-          </div>
-          <div class="form-label-group mb-3">
-            <label for="inputEmail">E-mail</label>
-            <input 
-                type="email" 
-                id="inputEmail" 
-                value="{{currentClient?.email}}"
-                class="form-control form-input" 
-                placeholder="exemplo@gmail.com" 
-                formControlName="email" 
-                autofocus="" 
-                required="">
-          </div>
-          <div class="form-label-group mb-3">
-            <label for="inputPhone">Telefone</label>
-            <input 
-                type="text" 
-                id="inputPhone" 
-                value="{{currentClient?.phone}}"
-                class="form-control form-input" 
-                placeholder="(51) 91234-5678" 
-                formControlName="phone" 
-                autofocus="" 
-                required="">
-          </div>
-          <hr class="hr" />
-          <p>Endereço:</p>
-          <div class="form-label-group mb-3"> 
-            <label for="inputZip">CEP:</label>
-            <input 
-                type="text" 
-                id="inputZip" 
-                value="{{currentClient?.address.zip}}"
-                class="form-control form-input" 
-                placeholder="Ex: 71694-028" 
-                formControlName="zip" 
-                autofocus="" 
-                required="">
-          </div>
-          <div class="form-label-group mb-3"> 
-            <label for="inputState">Estado</label>
-            <input 
-                type="text" 
-                id="inputState" 
-                maxlength="2"
-                value="{{currentClient?.state}}"
-                class="form-control form-input" 
-                placeholder="Ex: CA" 
-                formControlName="state" 
-                autofocus="" 
-                required="">
-          </div>
-          <div class="form-label-group mb-3"> 
-            <label for="inputState">Estado</label>
-            <input 
-                type="text" 
-                id="inputState" 
-                maxlength="2"
-                value="{{currentClient?.state}}"
-                class="form-control form-input" 
-                placeholder="Ex: CA" 
-                formControlName="state" 
-                autofocus="" 
-                required="">
-          </div>
-          <div class="form-label-group mb-3">
-            <label for="inputStreet">Rua</label>
-            <input 
-                type="text" 
-                id="inputStreet" 
-                value="{{currentClient?.state}}"
-                class="form-control form-input" 
-                placeholder="Rua 19 Conjunto B" 
-                formControlName="street" 
-                autofocus="" 
-                required="">
-          </div>
-          <div class="form-label-group mb-3">
-            <label for="inputCity">Cidade</label>
-            <input 
-                type="text" 
-                id="inputCity" 
-                value="{{currentClient?.city}}"
-                class="form-control form-input" 
-                placeholder="Brasília" 
-                formControlName="city" 
-                autofocus="" 
-                required="">
-          </div>
-          <div class="form-label-group mb-3">
-            <label for="inputNeighborhood">Bairro</label>
-            <input 
-                type="text" 
-                id="inputNeighborhood" 
-                value="{{currentClient?.address.neighborhood}}"
-                class="form-control form-input" 
-                placeholder="Brasília" 
-                formControlName="neighborhood" 
-                autofocus="" 
-                required="">
-          </div>
-          <div class="form-label-group mb-3">
-            <label for="inputNumber">Número</label>
-            <input 
-                type="number" 
-                id="inputNumber" 
-                value="{{currentClient?.address.number}}"
-                class="form-control form-input" 
-                placeholder="432" 
-                formControlName="number" 
-                autofocus="" 
-                required="">
-          </div>
-          <hr class="hr" />
-          <span>Criado em {{ getFormatedDate(currentClient?.createdAt) }}</span>
+        <div class="form-label-group mb-3">
+          <label for="inputEmail">Nome</label>
+          <input 
+              type="text" 
+              id="inputName" 
+              class="form-control form-input" 
+              placeholder="Nome de usuário" 
+              formControlName="name" 
+              autofocus="" 
+              required="">
+        </div>
+        <div class="form-label-group mb-3">
+          <label for="inputEmail">E-mail</label>
+          <input 
+              type="email" 
+              id="inputEmail" 
+              class="form-control form-input" 
+              placeholder="exemplo@gmail.com" 
+              formControlName="email" 
+              autofocus="" 
+              required="">
+        </div>
+        <div class="form-label-group mb-3">
+          <label for="inputPhone">Telefone</label>
+          <input 
+              type="text" 
+              id="inputPhone" 
+              class="form-control form-input" 
+              placeholder="(51) 91234-5678" 
+              formControlName="phone" 
+              autofocus="" 
+              required="">
+        </div>
+        <hr class="hr" />
+        <p>Endereço:</p>
+        <div class="form-label-group mb-3"> 
+          <label for="inputZip">CEP:</label>
+          <input 
+              type="text" 
+              id="inputZip" 
+              class="form-control form-input" 
+              placeholder="Ex: 71694-028" 
+              formControlName="zip" 
+              autofocus="" 
+              required=""
+              on-blur="getAddressByZip(createClientForm.get('zip')?.value)">
+        </div>
+        <div class="form-label-group mb-3"> 
+          <label for="inputState">Estado</label>
+          <input 
+              type="text" 
+              id="inputState" 
+              maxlength="2"
+              class="form-control form-input" 
+              placeholder="Ex: CA" 
+              formControlName="state" 
+              autofocus="" 
+              required="">
+        </div>
+        <div class="form-label-group mb-3">
+          <label for="inputStreet">Rua</label>
+          <input 
+              type="text" 
+              id="inputStreet" 
+              class="form-control form-input" 
+              placeholder="Rua 19 Conjunto B" 
+              formControlName="street" 
+              autofocus="" 
+              required="">
+        </div>
+        <div class="form-label-group mb-3">
+          <label for="inputCity">Cidade</label>
+          <input 
+              type="text" 
+              id="inputCity" 
+              class="form-control form-input" 
+              placeholder="Brasília" 
+              formControlName="city" 
+              autofocus="" 
+              required="">
+        </div>
+        <div class="form-label-group mb-3">
+          <label for="inputNeighbourhood">Bairro</label>
+          <input 
+              type="text" 
+              id="inputNeighbourhood" 
+              class="form-control form-input" 
+              placeholder="Brasília" 
+              formControlName="neighborhood" 
+              autofocus="" 
+              required="">
+        </div>
+        <div class="form-label-group mb-3">
+          <label for="inputNumber">Número</label>
+          <input 
+              type="number" 
+              id="inputNumber" 
+              class="form-control form-input" 
+              placeholder="432" 
+              formControlName="number" 
+              autofocus="" 
+              required="">
         </div>
       </form>
     </div>

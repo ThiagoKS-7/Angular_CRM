@@ -8,7 +8,6 @@ import {
   moveItemInArray,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
-import * as moment from 'moment';
 
 @Component({
   selector: 'app-dashboard',
@@ -68,7 +67,13 @@ export class DashboardComponent {
   }
 
   public getFormatedDate(date: string) {
-    return moment(date).format('DD/MM/YYYY, hh:mm:ss');
+    const dateFormat = new Date(date);
+    return  (dateFormat.getDate()+
+    "/"+(dateFormat.getMonth()+1)+
+    "/"+dateFormat.getFullYear()+
+    " "+ (dateFormat.getHours() < 9 ? '0' + dateFormat.getHours() : dateFormat.getHours())+
+    ":"+(dateFormat.getMinutes() < 9 ? '0' + dateFormat.getMinutes() : dateFormat.getMinutes())+
+    ":"+ (dateFormat.getSeconds() < 9 ? '0' + dateFormat.getSeconds() : dateFormat.getSeconds()));
   }
   async drop(event: CdkDragDrop<string[] | any>) {
     const idTranslate:any = {
